@@ -1,0 +1,193 @@
+name: GH Reusable Workflow Validate Helm Charts
+
+on:
+  workflow_call:
+    inputs:
+      chart_dir:
+        description: Directory containing the charts to validate.
+        type: string
+        required: false
+        default: charts
+      excluded_charts:
+        description: Charts to exclude from validation.
+        type: string
+        required: false
+        default: ""
+      target_branch:
+        description: Target branch for charts.
+        type: string
+        required: false
+        default: main
+      helm_repos:
+        description: List of Helm repos to install; as a comma separated list in the format <name>=<address>.
+        type: string
+        required: false
+        default: ""
+      helm_docs:
+        description: If helm-docs should be run.
+        type: boolean
+        required: false
+        default: false
+      ah_lint:
+        description: If the Artifact Hub linter should be run.
+        type: boolean
+        required: false
+        default: true
+      kubeconform:
+        description: If the Kubeconform should be run.
+        type: boolean
+        required: false
+        default: true
+      kubeconform_k8s_versions:
+        description: List of Kubernetes versions to use for Kubeconform; as a comma separated list in the format <major>.<minor>.<patch>.
+        type: string
+        required: false
+        default: ""
+      helm_extra_args:
+        description: Extra arguments to pass to Helm as part of chart testing.
+        type: string
+        required: false
+        default: ""
+
+jobs:
+  validate:
+    name: Validate Helm charts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+        with:
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@bd6b4b6205c4dbad673328db7b31b7fab9e241c0 # v4.6.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          python-version: "3.x"
+
+      - name: Install Helm
+        uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+
+      - name: Configure Helm repos
+        if: ${{ inputs.helm_repos }}
+        run: |
+          set -euo pipefail
+
+          repos="${{ inputs.helm_repos }}"
+          for repo in ${repos//,/ }
+          do
+            helm repo add "${repo%=*}" "${repo#*=}"
+          done
+
+      - name: Install chart-testing
+        uses: helm/chart-testing-action@e8788873172cb653a90ca2e819d79d65a66d4e76 # v2.4.0
+
+      - name: Check for changes
+        id: changes
+        run: |
+          set -euo pipefail
+          changed="$(ct list-changed --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }})"
+          if [[ -n "${changed}" ]]
+          then
+            echo "changed=true" >> "${GITHUB_OUTPUT}"
+            echo "charts=$(echo "${changed}" | tr '\n' ',' | rev | cut -c 2- | rev | jq -Rrc '[split(",") | .[] | split("/") | .[1]] | join(",")')" >> "${GITHUB_OUTPUT}"
+          else
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
+            echo "charts=" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Install Helm Docs
+        if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
+        uses: action-stars/install-tool-from-github-release@58e2dd20166c0eb19ab9ac4d0966c930a647ee69 # v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: norwoodj
+          repository: helm-docs
+          arch_amd64: x86_64
+          os_linux: Linux
+          check_command: helm-docs --version
+          version: latest
+
+      - name: Run Helm Docs check
+        if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
+        run: |
+          set -euo pipefail
+          helm-docs
+          if [[ -n "$(git status --porcelain --untracked-files=no)" ]]
+          then
+            echo "Documentation not up to date. Please run helm-docs and commit changes!" >&2
+            exit 1
+          fi
+
+      - name: Install Artifact Hub CLI
+        if: ${{ inputs.ah_lint && steps.changes.outputs.changed == 'true' }}
+        uses: action-stars/install-tool-from-github-release@58e2dd20166c0eb19ab9ac4d0966c930a647ee69 # v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: artifacthub
+          repository: hub
+          name: ah
+          check_command: ah version
+          version: latest
+
+      - name: Run Artifact Hub lint
+        if: ${{ inputs.ah_lint && steps.changes.outputs.changed == 'true' }}
+        run: ah lint --kind helm || exit 1
+
+      - name: Run chart-testing lint
+        if: ${{ steps.changes.outputs.changed == 'true' }}
+        run: ct lint --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }} --check-version-increment=false --chart-repos="${{ inputs.helm_repos }}"
+
+      - name: Install Kubeconform
+        if: ${{ inputs.kubeconform && steps.changes.outputs.changed == 'true' }}
+        uses: action-stars/install-tool-from-github-release@58e2dd20166c0eb19ab9ac4d0966c930a647ee69 # v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: yannh
+          repository: kubeconform
+          filename_format: "{name}-{os}-{arch}.{ext}"
+          check_command: kubeconform -v
+          version: latest
+
+      - name: Run Kubeconform
+        if: ${{ inputs.kubeconform && steps.changes.outputs.changed == 'true' }}
+        run: |
+          set -euo pipefail
+
+          charts="${{ steps.changes.outputs.charts }}"
+          for chart in ${charts//,/ }
+          do
+            values="./${{ inputs.chart_dir }}/${chart}/ci/kubeconform.yaml"
+            if [[ ! -f "${values}" ]]
+            then
+              values="./${{ inputs.chart_dir }}/${chart}/test-values.yaml"
+              touch "${values}"
+            fi
+
+            k8s_version_stable="$(curl -sL https://dl.k8s.io/release/stable.txt | grep -Eo '[0-9]+\.[0-9]+').0"
+            k8s_versions_in="${{ inputs.k8s_versions }}"
+            k8s_versions="${k8s_versions_in:-$k8s_version_stable}"
+            for k8s_version in ${k8s_versions//,/ }
+            do
+              echo "Chart: ${chart}, K8s: ${k8s_version}"
+              helm template --kube-version "${k8s_version}" "./${{ inputs.chart_dir }}/${chart}" --values "${values}" | kubeconform --kubernetes-version "${k8s_version}" --schema-location default --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --strict --summary
+            done
+          done
+
+      - name: Create Kind cluster
+        if: ${{ steps.changes.outputs.changed == 'true' }}
+        uses: helm/kind-action@fa81e57adff234b2908110485695db0f181f3c67 # v1.7.0
+
+      - name: Run chart-testing install
+        if: ${{ steps.changes.outputs.changed == 'true' }}
+        run: ct install --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }} --helm-extra-args="${{ inputs.helm_extra_args }}" --chart-repos="${{ inputs.helm_repos }}"
