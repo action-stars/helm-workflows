@@ -214,7 +214,7 @@ jobs:
           then
             cat <<"EOF" > ./${{ inputs.chart_dir }}/${{ matrix.chart }}/RELEASE.md
             ${{ steps.changelog_reader.outputs.changes }}
-            EOF
+          EOF
           fi
 
           cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --release-name-template="${{ inputs.release_name_template }}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
