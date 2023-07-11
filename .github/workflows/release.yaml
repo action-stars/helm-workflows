@@ -2,6 +2,10 @@ name: GH Reusable Workflow Release Helm Charts
 
 on:
   workflow_call:
+    secrets:
+      oci_password:
+        description: OCI registry password.
+        required: false
     inputs:
       chart_dir:
         description: Directory containing the charts to validate.
@@ -45,11 +49,6 @@ on:
         default: "ghcr.io"
       oci_username:
         description: OCI registry username.
-        type: string
-        required: false
-        default: ""
-      oci_password:
-        description: OCI registry password.
         type: string
         required: false
         default: ""
@@ -225,8 +224,8 @@ jobs:
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2.2.0
         with:
           registry: ${{ inputs.oci_registry }}
-          username: ${{ inputs.oci_username }}
-          password: ${{ inputs.oci_password }}
+          username: ${{ inputs.oci_username || github.actor }}
+          password: ${{ secrets.oci_password || secrets.GITHUB_TOKEN }}
 
       - name: Install ORAS
         if: inputs.publish_oci
@@ -249,7 +248,7 @@ jobs:
           then
             oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
 
-            oras login --username "${{ inputs.oci_username }}" --password "${{ inputs.oci_password }}" "${{ inputs.oci_registry }}"
+            oras login --username "${{ inputs.oci_username || github.actor }}" --password "${{ secrets.oci_password || secrets.GITHUB_TOKEN }}" "${{ inputs.oci_registry }}"
             oras push "${oci_repository}:artifacthub.io" "${ah_config_path}:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
           fi
 
