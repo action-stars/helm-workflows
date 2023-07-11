@@ -51,7 +51,7 @@ on:
         description: OCI registry username.
         type: string
         required: false
-        default: ""
+        default: ${{ github.actor }}
       oci_repository_prefix:
         description: OCI repository prefix, will default to the current repository name.
         type: string
@@ -224,7 +224,7 @@ jobs:
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2.2.0
         with:
           registry: ${{ inputs.oci_registry }}
-          username: ${{ inputs.oci_username || github.actor }}
+          username: ${{ inputs.oci_username }}
           password: ${{ secrets.oci_password || secrets.GITHUB_TOKEN }}
 
       - name: Install ORAS
@@ -248,7 +248,7 @@ jobs:
           then
             oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
 
-            oras login --username "${{ inputs.oci_username || github.actor }}" --password "${{ secrets.oci_password || secrets.GITHUB_TOKEN }}" "${{ inputs.oci_registry }}"
+            oras login --username "${{ inputs.oci_username }}" --password "${{ secrets.oci_password || secrets.GITHUB_TOKEN }}" "${{ inputs.oci_registry }}"
             oras push "${oci_repository}:artifacthub.io" "${ah_config_path}:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
           fi
 
