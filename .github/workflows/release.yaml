@@ -184,18 +184,6 @@ jobs:
           set -euo pipefail
           echo "version=$(yq eval '.version' './${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml')" >> "${GITHUB_OUTPUT}"
 
-      - name: Package chart
-        id: package
-        run: |
-          set -euo pipefail
-
-          package_dir="./.cr-release-packages"
-          mkdir -p "${package_dir}"
-
-          cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
-
-          echo "path=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
-
       - name: Get changelog entry
         if: inputs.release_notes
         id: changelog_reader
@@ -204,18 +192,30 @@ jobs:
           path: ./${{ inputs.chart_dir }}/${{ matrix.chart }}/CHANGELOG.md
           version: v${{ steps.chart_version.outputs.version }}
 
+      - name: Package chart
+        id: package
+        run: |
+          set -euo pipefail
+
+          package_dir="./.cr-release-packages"
+          mkdir -p "${package_dir}"
+
+          if [[ "${{ inputs.release_notes }}" == "true" ]]
+          then
+            cat <<"EOF" > ./${{ inputs.chart_dir }}/${{ matrix.chart }}/RELEASE.md
+          ${{ steps.changelog_reader.outputs.changes }}
+          EOF
+          fi
+
+          cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
+
+          echo "path=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
+
       - name: Create chart GH release
         run: |
           set -euo pipefail
 
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
-
-          if [[ "${{ inputs.release_notes }}" == "true" ]]
-          then
-            cat <<"EOF" > ./${{ inputs.chart_dir }}/${{ matrix.chart }}/RELEASE.md
-            ${{ steps.changelog_reader.outputs.changes }}
-          EOF
-          fi
 
           cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --release-name-template="${{ inputs.release_name_template }}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
 
