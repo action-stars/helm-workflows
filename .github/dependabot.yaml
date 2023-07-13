@@ -8,3 +8,5 @@ updates:
           - "*"
     schedule:
       interval: daily
+    assignees:
+      - action-stars/dependabot-reviewers
