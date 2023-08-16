@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.1] - 2023-08-16
+
+### Fixed
+
+- Fixed Kubeconform versions input typo.
+
 ## [v0.1.0] - 2023-07-13
 
 ### Added
