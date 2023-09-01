@@ -18,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.2] - 2023-09-01
+
+### Changed
+
+- Updated `actions/checkout` from `v3.5.3` to [v3.6.0](https://github.com/actions/checkout/releases/tag/v3.6.0).
+- Updated `actions/setup-pyton` from `v4.6.1` to [v4.7.0](https://github.com/actions/setup-python/releases/tag/v4.7.0).
+
 ## [v0.1.1] - 2023-08-16
 
 ### Fixed
