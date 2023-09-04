@@ -18,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.3] - 2023-09-04
+
+### Changed
+
+- Updated `actions/checkout` from `v3.6.0` to [v4.0.0](https://github.com/actions/checkout/releases/tag/v4.0.0).
+- Updated `sigstore/cosign-installer` from `v3.1.1` to [v3.1.2](https://github.com/sigstore/cosign-installer/releases/tag/v3.1.2).
+
 ## [v0.1.2] - 2023-09-01
 
 ### Changed
