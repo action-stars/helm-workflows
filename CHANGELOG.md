@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.4] - 2023-09-25
+
+### Changed
+
+- Updated `docker/login-action` from `v2.2.0` to [v3.0.0](https://github.com/docker/login-action/releases/tag/v3.0.0).
+
+### Fixed
+
+- Fixed `helm-docs` artifact name.
+
 ## [v0.1.3] - 2023-09-04
 
 ### Changed
