@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.5] - 2023-09-25
+
+### Changed
+
+- Updated `actions/checkout` from `v4.0.0` to [v4.1.0](https://github.com/actions/checkout/releases/tag/v4.1.0).
+
 ## [v0.1.4] - 2023-09-25
 
 ### Changed
