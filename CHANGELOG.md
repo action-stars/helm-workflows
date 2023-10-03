@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [v0.1.6] - 2023-10-03
+
+### Changed
+
+- Updated `actions/setup-python` from `v4.7.0` to [v4.7.1](https://github.com/actions/setup-python/releases/tag/v4.7.1).
+
 ## [v0.1.5] - 2023-09-25
 
 ### Changed
