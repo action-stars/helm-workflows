@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [UNRELEASED]
+
+### Changed
+
+- Updated `actions/checkout` from `v4.1.0` to [v4.1.1](https://github.com/actions/checkout/releases/tag/v4.1.1).
+
+### Fixed
+
+- Fixed `helm-docs` artifact name.
+
 ## [v0.1.6] - 2023-10-03
 
 ### Changed

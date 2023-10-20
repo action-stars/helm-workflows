@@ -115,7 +115,6 @@ jobs:
           repository: helm-docs
           arch_amd64: x86_64
           os_linux: Linux
-          filename_format: "{name}_{os}_{arch}.{ext}"
           check_command: helm-docs --version
           version: latest
 
