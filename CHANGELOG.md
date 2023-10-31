@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security - In case of vulnerabilities.
 -->
 
+## [UNRELEASED]
+
+## [v0.1.8] - 2023-10-31
+
+### Changed
+
+- Updated `helm/chart-testing-action` from `v2.4.0` to [v2.5.0](https://github.com/helm/chart-testing-action/releases/tag/v2.5.0).
+
 ## [v0.1.7] - 2023-10-20
 
 ### Changed
