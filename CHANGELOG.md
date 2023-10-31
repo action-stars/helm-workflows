@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASED]
 
+## [v0.1.9] - 2023-10-31
+
 ### Fixed
 
 - Fixed `Error: targetBranch 'main' does not exist` error by reverting `chart-testing` to [v3.8.0](https://github.com/helm/chart-testing/releases/tag/v3.8.0).
