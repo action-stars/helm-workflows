@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated `helm/chart-testing-action` from `v2.5.0` to [v2.6.0](https://github.com/helm/chart-testing-action/releases/tag/v2.6.0).
+- Removed explicit `chart-testing` version override.
+
 ## [v0.1.9] - 2023-10-31
 
 ### Fixed
