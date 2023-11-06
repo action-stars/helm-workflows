@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASED]
 
+## [v0.1.12] - 2023-11-06
+
 ### Changed
 
 - Updated `helm/chart-releaser-action` from `v1.6.0` to [v1.6.1](https://github.com/helm/chart-releaser-action/releases/tag/v1.6.1).
