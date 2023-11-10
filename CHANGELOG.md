@@ -20,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [UNRELEASED]
 
+## [v0.1.13] - 2023-11-10
+
+### Changed
+
+- Updated `sigstore/cosign-installer` from `v3.1.2` to [v3.2.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.2.0).
+
 ## [v0.1.12] - 2023-11-06
 
 ### Changed
