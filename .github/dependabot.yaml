@@ -6,7 +6,12 @@ updates:
       github-actions:
         patterns:
           - "*"
+        update-types:
+          - minor
+          - patch
+    commit-message:
+      prefix: deps
     schedule:
-      interval: daily
+      interval: weekly
     assignees:
       - action-stars/dependabot-reviewers
