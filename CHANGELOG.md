@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated `action-stars/install-tool-from-github-release` from 0.2.0 to 0.2.1 ([#18](https://github.com/action-stars/helm-workflows/pull/18))
 - Updated `actions/setup-python` from 4.7.1 to 5.0.0 ([#19](https://github.com/action-stars/helm-workflows/pull/19))
+- Updated `sigstore/cosign-installer` from 3.2.0 to 3.3.0 ([#20](https://github.com/action-stars/helm-workflows/pull/20))
+- Updated `actions/setup-go` from 4.1.0 to 5.0.0 ([#20](https://github.com/action-stars/helm-workflows/pull/20))
 
 ## [v0.1.13] - 2023-11-10
 
