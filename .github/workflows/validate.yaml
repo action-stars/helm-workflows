@@ -28,6 +28,11 @@ on:
         type: boolean
         required: false
         default: false
+      changelog:
+        description: If the CHANGELOG needs to be validated.
+        type: boolean
+        required: false
+        default: false
       ah_lint:
         description: If the Artifact Hub linter should be run.
         type: boolean
@@ -106,6 +111,35 @@ jobs:
             echo "charts=" >> "${GITHUB_OUTPUT}"
           fi
 
+      - name: Install YQ
+        if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
+        uses: action-stars/install-tool-from-github-release@b21a01813213cbbf482eeceda07ad03b41b754d1 # v0.2.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: mikefarah
+          repository: yq
+          extract: false
+          filename_format: "{name}_{os}_{arch}"
+          check_command: yq --version
+          version: latest
+
+      - name: Run CHANGELOG check
+        if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
+        run: |
+          set -euo pipefail
+
+          charts="${{ steps.changes.outputs.charts }}"
+          for chart in ${charts//,/ }
+          do
+            version="$(yq eval '.version' "./${{ inputs.chart_dir }}/${chart}/Chart.yaml")"
+            entry="$(grep -Fo "[v${version}]" "./${{ inputs.chart_dir }}/${chart}/CHANGELOG.md" || true)"
+            if [[ -z "${entry}" ]]
+            then
+              echo "No CHANGELOG entry for ${chart} version ${version}!" >&2
+              exit 1
+            fi
+          done
+
       - name: Install Helm Docs
         if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
         uses: action-stars/install-tool-from-github-release@b21a01813213cbbf482eeceda07ad03b41b754d1 # v0.2.1
@@ -122,10 +156,11 @@ jobs:
         if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
         run: |
           set -euo pipefail
+
           helm-docs
           if [[ -n "$(git status --porcelain --untracked-files=no)" ]]
           then
-            echo "Documentation not up to date. Please run helm-docs and commit changes!" >&2
+            echo "Documentation not up to date; please run helm-docs and commit changes!" >&2
             exit 1
           fi
 

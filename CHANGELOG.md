@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added support for validating the CHANGELOG by setting `changelog` to `true` in the validate workflow. ([#21](https://github.com/action-stars/helm-workflows/pull/21)) [@stevehipwell](https://github.com/stevehipwell)
+
 ### Changed
 
 - Updated `action-stars/install-tool-from-github-release` from `0.2.0` to [0.2.1](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.1). ([#18](https://github.com/action-stars/helm-workflows/pull/18)) @dependabot
