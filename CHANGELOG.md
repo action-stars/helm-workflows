@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.2.0] - 2024-01-11
+
 ### Added
 
 - Added support for validating the CHANGELOG by setting `changelog` to `true` in the validate workflow. ([#21](https://github.com/action-stars/helm-workflows/pull/21)) [@stevehipwell](https://github.com/stevehipwell)
@@ -123,7 +125,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.1.13...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.2.0
 [v0.1.13]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.13
 [v0.1.12]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.12
 [v0.1.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.11
