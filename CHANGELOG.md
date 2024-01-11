@@ -1,11 +1,7 @@
 # Action Stars Helm Workflows for GitHub Actions Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
----
+> [!NOTE]
+> All notable changes to this project will be documented in this file; the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!--
 ### Added - For new features.
@@ -19,10 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [UNRELEASED]
 
 ### Changed
-- Updated `action-stars/install-tool-from-github-release` from 0.2.0 to 0.2.1 ([#18](https://github.com/action-stars/helm-workflows/pull/18))
-- Updated `actions/setup-python` from 4.7.1 to 5.0.0 ([#19](https://github.com/action-stars/helm-workflows/pull/19))
-- Updated `sigstore/cosign-installer` from 3.2.0 to 3.3.0 ([#20](https://github.com/action-stars/helm-workflows/pull/20))
-- Updated `actions/setup-go` from 4.1.0 to 5.0.0 ([#20](https://github.com/action-stars/helm-workflows/pull/20))
+
+- Updated `action-stars/install-tool-from-github-release` from `0.2.0` to [0.2.1](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.1). ([#18](https://github.com/action-stars/helm-workflows/pull/18)) @dependabot
+- Updated `actions/setup-python` from `4.7.1` to [5.0.0](https://github.com/actions/setup-python/releases/tag/v5.0.0). ([#19](https://github.com/action-stars/helm-workflows/pull/19)) @dependabot
+- Updated `sigstore/cosign-installer` from `3.2.0` to [3.3.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.3.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) @dependabot
+- Updated `actions/setup-go` from `4.1.0` to [5.0.0](https://github.com/actions/setup-go/releases/tag/v5.0.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) @dependabot
 
 ## [v0.1.13] - 2023-11-10
 
@@ -118,3 +115,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial release.
+
+<!--
+RELEASES
+-->
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.1.13...HEAD
+[v0.1.13]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.13
+[v0.1.12]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.12
+[v0.1.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.11
+[v0.1.10]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.10
+[v0.1.9]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.9
+[v0.1.8]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.8
+[v0.1.7]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.7
+[v0.1.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.6
+[v0.1.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.5
+[v0.1.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.4
+[v0.1.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.3
+[v0.1.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.2
+[v0.1.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.1
+[v0.1.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.0
