@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.3.0] - 2024-01-23
+
 ### Added
 
 - Added support for checking if a chart has already been released and not attempting to re-release it.
@@ -134,7 +136,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.2.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.0...HEAD
+[v0.3.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.0
 [v0.2.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.2.0
 [v0.1.13]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.13
 [v0.1.12]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.12
