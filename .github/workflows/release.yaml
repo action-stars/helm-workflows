@@ -17,11 +17,11 @@ on:
         type: string
         required: false
         default: ""
-      release_name_template:
-        description: Template for generating the release name.
+      release_name_version_prefix:
+        description: Prefix for the release name version.
         type: string
         required: false
-        default: "{{ .Name }}-{{ .Version }}"
+        default: ""
       release_as_latest:
         description: If the release should be created as latest.
         type: boolean
@@ -73,6 +73,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Install YQ
         uses: action-stars/install-tool-from-github-release@b21a01813213cbbf482eeceda07ad03b41b754d1 # v0.2.1
@@ -90,6 +91,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          release_name_version_prefix="${{ inputs.release_name_version_prefix }}"
+
           release_charts=""
 
           for chart_dir in ./${{ inputs.chart_dir }}/*
@@ -100,7 +103,7 @@ jobs:
               released_version="$(git tag -l --sort version:refname "${chart}-*" | tail -n 1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' || true)"
               current_version="$(yq eval '.version' "./${{ inputs.chart_dir }}/${chart}/Chart.yaml")"
 
-              if [[ "${current_version}" != "${released_version}" ]]
+              if [[ "${current_version}" != "${released_version}" ]] && [[ -z "$(git tag -l "${chart}-${release_name_version_prefix}${current_version}")" ]]
               then
                 echo "Chart: ${chart}, Released version: ${released_version}, Current version: ${current_version}"
                 release_charts="${release_charts}${chart},"
@@ -216,8 +219,9 @@ jobs:
           set -euo pipefail
 
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
+          release_name_template="{{ .Name }}-${{ inputs.release_name_version_prefix }}{{ .Version }}"
 
-          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --release-name-template="${{ inputs.release_name_template }}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
+          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
 
       - name: Login to OCI registry
         if: inputs.publish_oci
