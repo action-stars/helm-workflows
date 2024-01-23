@@ -14,6 +14,15 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added support for checking if a chart has already been released and not attempting to re-release it.
+- Added new `release_name_version_prefix` input to replace `release_name_template` to constrain the release name.
+
+### Removed
+
+- Removed `release_name_template` input variable.
+
 ## [v0.2.0] - 2024-01-11
 
 ### Added
