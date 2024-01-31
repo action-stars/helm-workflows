@@ -14,16 +14,22 @@
 
 ## [UNRELEASED]
 
+## [v0.3.1] - 2024-01-31
+
+### Changed
+
+- Updated `action-stars/install-tool-from-github-release` from `0.2.1` to [0.2.2](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.2). ([#23](https://github.com/action-stars/helm-workflows/pull/18)) _@dependabot_
+
 ## [v0.3.0] - 2024-01-23
 
 ### Added
 
-- Added support for checking if a chart has already been released and not attempting to re-release it.
-- Added new `release_name_version_prefix` input to replace `release_name_template` to constrain the release name.
+- Added support for checking if a chart has already been released and not attempting to re-release it. ([#22](https://github.com/action-stars/helm-workflows/pull/22)) [@stevehipwell](https://github.com/stevehipwell)
+- Added new `release_name_version_prefix` input to replace `release_name_template` to constrain the release name. ([#22](https://github.com/action-stars/helm-workflows/pull/22)) [@stevehipwell](https://github.com/stevehipwell)
 
 ### Removed
 
-- Removed `release_name_template` input variable.
+- Removed `release_name_template` input variable. ([#22](https://github.com/action-stars/helm-workflows/pull/22)) [@stevehipwell](https://github.com/stevehipwell)
 
 ## [v0.2.0] - 2024-01-11
 
@@ -33,10 +39,10 @@
 
 ### Changed
 
-- Updated `action-stars/install-tool-from-github-release` from `0.2.0` to [0.2.1](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.1). ([#18](https://github.com/action-stars/helm-workflows/pull/18)) @dependabot
-- Updated `actions/setup-python` from `4.7.1` to [5.0.0](https://github.com/actions/setup-python/releases/tag/v5.0.0). ([#19](https://github.com/action-stars/helm-workflows/pull/19)) @dependabot
-- Updated `sigstore/cosign-installer` from `3.2.0` to [3.3.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.3.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) @dependabot
-- Updated `actions/setup-go` from `4.1.0` to [5.0.0](https://github.com/actions/setup-go/releases/tag/v5.0.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) @dependabot
+- Updated `action-stars/install-tool-from-github-release` from `0.2.0` to [0.2.1](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.1). ([#18](https://github.com/action-stars/helm-workflows/pull/18)) _@dependabot_
+- Updated `actions/setup-python` from `4.7.1` to [5.0.0](https://github.com/actions/setup-python/releases/tag/v5.0.0). ([#19](https://github.com/action-stars/helm-workflows/pull/19)) _@dependabot_
+- Updated `sigstore/cosign-installer` from `3.2.0` to [3.3.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.3.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) _@dependabot_
+- Updated `actions/setup-go` from `4.1.0` to [5.0.0](https://github.com/actions/setup-go/releases/tag/v5.0.0). ([#20](https://github.com/action-stars/helm-workflows/pull/20)) _@dependabot_
 
 ## [v0.1.13] - 2023-11-10
 
@@ -136,7 +142,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.1...HEAD
+[v0.3.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.1
 [v0.3.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.0
 [v0.2.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.2.0
 [v0.1.13]: https://github.com/action-stars/helm-workflows/releases/tag/v0.1.13
