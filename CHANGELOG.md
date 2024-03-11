@@ -14,6 +14,15 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated `helm/kind-action` from `1.8.0` to [1.9.0](https://github.com/helm/kind-action/releases/tag/v1.9.0). ([#25](https://github.com/action-stars/helm-workflows/pull/25)) _@dependabot_
+- Updated `mindsers/changelog-reader-action` from `2.2.2` to [2.2.3](https://github.com/mindsers/changelog-reader-action/releases/tag/v2.2.3). ([#27](https://github.com/action-stars/helm-workflows/pull/27)) _@dependabot_
+
+### Fixed
+
+- Fixed the tag SHA for charts released from non-default branches. ([#26](https://github.com/action-stars/helm-workflows/pull/26)) [@stevehipwell](https://github.com/stevehipwell)
+
 ## [v0.3.2] - 2024-02-07
 
 ### Changed

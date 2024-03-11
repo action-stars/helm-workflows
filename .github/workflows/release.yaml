@@ -221,7 +221,7 @@ jobs:
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
           release_name_template="{{ .Name }}-${{ inputs.release_name_version_prefix }}{{ .Version }}"
 
-          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
+          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
 
       - name: Login to OCI registry
         if: inputs.publish_oci
