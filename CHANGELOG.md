@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.3.3] - 2024-03-11
+
 ### Changed
 
 - Updated `helm/kind-action` from `1.8.0` to [1.9.0](https://github.com/helm/kind-action/releases/tag/v1.9.0). ([#25](https://github.com/action-stars/helm-workflows/pull/25)) _@dependabot_
@@ -157,7 +159,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.2...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.3...HEAD
+[v0.3.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.3
 [v0.3.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.2
 [v0.3.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.1
 [v0.3.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.0
