@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.3.4] - 2024-03-25
+
 ### Changed
 
 - Updated `actions/checkout` from `v4.1.1` to [v4.1.2](https://github.com/actions/checkout/releases/tag/v4.1.2). ([#29](https://github.com/action-stars/helm-workflows/pull/29)) _@dependabot_
@@ -168,7 +170,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.3...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.4...HEAD
+[v0.3.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.4
 [v0.3.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.3
 [v0.3.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.2
 [v0.3.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.1
