@@ -14,6 +14,15 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated `actions/checkout` from `v4.1.1` to [v4.1.2](https://github.com/actions/checkout/releases/tag/v4.1.2). ([#29](https://github.com/action-stars/helm-workflows/pull/29)) _@dependabot_
+- Updated `docker/login-action` from `v3.0.0` to [v3.1.0](https://github.com/docker/login-action/releases/tag/v3.1.0). ([#29](https://github.com/action-stars/helm-workflows/pull/29)) _@dependabot_
+
+### Fixed
+
+- Fixed clean-up of old `artifacthub.io` images. ([#28](https://github.com/action-stars/helm-workflows/pull/28)) [@stevehipwell](https://github.com/stevehipwell)
+
 ## [v0.3.3] - 2024-03-11
 
 ### Changed

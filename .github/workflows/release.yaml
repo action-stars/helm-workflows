@@ -231,6 +231,10 @@ jobs:
           username: ${{ inputs.oci_username }}
           password: ${{ secrets.oci_password || secrets.GITHUB_TOKEN }}
 
+      - name: Install Crane
+        if: inputs.publish_oci
+        uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+
       - name: Install ORAS
         if: inputs.publish_oci
         uses: action-stars/install-tool-from-github-release@9019d0a3125e2f45a48858afb632e6dbef663d79 # v0.2.2
@@ -250,15 +254,27 @@ jobs:
 
           if [[ -f "${ah_config_path}" ]]
           then
+            media_type="application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
             oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
+            oci_image="${oci_repository}:artifacthub.io"
 
             oras login --username "${{ inputs.oci_username }}" --password "${{ secrets.oci_password || secrets.GITHUB_TOKEN }}" "${{ inputs.oci_registry }}"
-            oras push "${oci_repository}:artifacthub.io" "${ah_config_path}:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
-          fi
 
-      - name: Install Crane
-        if: inputs.publish_oci
-        uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+            old_config_digest="$(crane digest "${oci_image}" || true)"
+
+            if [[ -n "${old_config_digest}" ]]
+            then
+              blob_digest="$(oras manifest fetch --output - "${oci_repository}@${old_config_digest}" | jq -r --arg mediaType "${media_type}" '.layers[] | select(.mediaType == $mediaType) | .digest')"
+
+              if [[ "$(oras blob fetch --output - "${oci_repository}@${blob_digest}")" != "$(cat "${ah_config_path}")" ]]
+              then
+                oras push "${oci_image}" "${ah_config_path}:${media_type}"
+                crane delete "${oci_repository}@${delete_digest}"
+              fi
+            else
+              oras push "${oci_image}" "${ah_config_path}:${media_type}"
+            fi
+          fi
 
       - name: Install Cosign
         if: inputs.publish_oci
