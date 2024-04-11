@@ -14,6 +14,14 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated `actions/setup-python` from `5.0.0` to [5.1.0](https://github.com/actions/setup-python/releases/tag/v5.1.0). ([#30](https://github.com/action-stars/helm-workflows/pull/30)) _@dependabot_
+
+### Fixed
+
+- Fixed Artifact Hub config delete logic when the config value has changed. ([#31](https://github.com/action-stars/helm-workflows/pull/31)) _@stevehipwell_
+
 ## [v0.3.4] - 2024-03-25
 
 ### Changed
