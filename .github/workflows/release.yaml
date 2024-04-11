@@ -268,11 +268,11 @@ jobs:
 
               if [[ "$(oras blob fetch --output - "${oci_repository}@${blob_digest}")" != "$(cat "${ah_config_path}")" ]]
               then
-                oras push "${oci_image}" "${ah_config_path}:${media_type}"
+                oras push --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml "${oci_image}" "${ah_config_path}:${media_type}"
                 crane delete "${oci_repository}@${old_config_digest}"
               fi
             else
-              oras push "${oci_image}" "${ah_config_path}:${media_type}"
+              oras push --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml "${oci_image}" "${ah_config_path}:${media_type}"
             fi
           fi
 
