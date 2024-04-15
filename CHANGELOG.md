@@ -14,9 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.3.5] - 2024-04-15
+
 ### Changed
 
 - Updated `actions/setup-python` from `5.0.0` to [5.1.0](https://github.com/actions/setup-python/releases/tag/v5.1.0). ([#30](https://github.com/action-stars/helm-workflows/pull/30)) _@dependabot_
+- Updated `sigstore/cosign-installer` from `3.4.0` to [3.5.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.5.0). ([#32](https://github.com/action-stars/helm-workflows/pull/32)) _@dependabot_
+- Updated `sigstore/cosign-installer` from `3.5` to [4.1.0](https://github.com/Azure/setup-helm/releases/tag/v4.1.0). ([#33](https://github.com/action-stars/helm-workflows/pull/33)) _@dependabot_
 
 ### Fixed
 
@@ -179,6 +183,7 @@
 RELEASES
 -->
 [UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.4...HEAD
+[v0.3.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.5
 [v0.3.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.4
 [v0.3.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.3
 [v0.3.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.2
