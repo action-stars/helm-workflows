@@ -203,16 +203,23 @@ jobs:
           package_dir="./.cr-release-packages"
           mkdir -p "${package_dir}"
 
+          release_notes_file="RELEASE.md"
+
           if [[ "${{ inputs.release_notes }}" == "true" ]]
           then
-            cat <<"EOF" > ./${{ inputs.chart_dir }}/${{ matrix.chart }}/RELEASE.md
+            release_notes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${release_notes_file}"
+
+            cat <<"EOF" > "${release_notes_path}"
           ${{ steps.changelog_reader.outputs.changes }}
           EOF
+
+            sed -r -i 's/\[(@[^]]+)\]\([^)]+\)/\1/g' "${release_notes_path}"
           fi
 
           cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
 
           echo "path=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
+          echo "release_notes_file=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
 
       - name: Create chart GH release
         run: |
@@ -221,7 +228,7 @@ jobs:
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
           release_name_template="{{ .Name }}-${{ inputs.release_name_version_prefix }}{{ .Version }}"
 
-          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=RELEASE.md --make-release-latest=${{ inputs.release_as_latest }}
+          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=${{ steps.package.outputs.release_notes_file }} --make-release-latest=${{ inputs.release_as_latest }}
 
       - name: Login to OCI registry
         if: inputs.publish_oci

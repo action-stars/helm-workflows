@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added support for removing unwanted wrapping links from CHANGELOG authors before writing release notes.
+
 ## [v0.3.5] - 2024-04-15
 
 ### Changed
