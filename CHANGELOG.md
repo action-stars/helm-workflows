@@ -14,10 +14,17 @@
 
 ## [UNRELEASED]
 
+## [v0.4.0] - 2024-04-19
+
 ### Added
 
 - Added support for removing unwanted wrapping links from CHANGELOG authors before writing release notes. ([#34](https://github.com/action-stars/helm-workflows/pull/34)) _@stevehipwell_
 - Added support for setting the Artifact hub config file name. ([#35](https://github.com/action-stars/helm-workflows/pull/35)) _@stevehipwell_
+
+### Changed
+
+- Updated `action-stars/generic-workflows` from `0.1.0` to [0.2.0](https://github.com/action-stars/generic-workflows/releases/tag/v0.2.0). ([#36](https://github.com/action-stars/helm-workflows/pull/36)) _@dependabot_
+- Updated `Azure/setup-helm` from `4.1.0` to [4.2.0](https://github.com/Azure/setup-helm/releases/tag/v4.2.0). ([#36](https://github.com/action-stars/helm-workflows/pull/36)) _@dependabot_
 
 ## [v0.3.5] - 2024-04-15
 
@@ -25,7 +32,7 @@
 
 - Updated `actions/setup-python` from `5.0.0` to [5.1.0](https://github.com/actions/setup-python/releases/tag/v5.1.0). ([#30](https://github.com/action-stars/helm-workflows/pull/30)) _@dependabot_
 - Updated `sigstore/cosign-installer` from `3.4.0` to [3.5.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.5.0). ([#32](https://github.com/action-stars/helm-workflows/pull/32)) _@dependabot_
-- Updated `sigstore/cosign-installer` from `3.5` to [4.1.0](https://github.com/Azure/setup-helm/releases/tag/v4.1.0). ([#33](https://github.com/action-stars/helm-workflows/pull/33)) _@dependabot_
+- Updated `Azure/setup-helm` from `3.5` to [4.1.0](https://github.com/Azure/setup-helm/releases/tag/v4.1.0). ([#33](https://github.com/action-stars/helm-workflows/pull/33)) _@dependabot_
 
 ### Fixed
 
@@ -187,7 +194,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.3.4...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.4.0...HEAD
+[v0.4.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.4.0
 [v0.3.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.5
 [v0.3.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.4
 [v0.3.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.3
