@@ -16,7 +16,8 @@
 
 ### Added
 
-- Added support for removing unwanted wrapping links from CHANGELOG authors before writing release notes.
+- Added support for removing unwanted wrapping links from CHANGELOG authors before writing release notes. ([#34](https://github.com/action-stars/helm-workflows/pull/34)) _@stevehipwell_
+- Added support for setting the Artifact hub config file name. ([#35](https://github.com/action-stars/helm-workflows/pull/35)) _@stevehipwell_
 
 ## [v0.3.5] - 2024-04-15
 

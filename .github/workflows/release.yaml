@@ -57,6 +57,11 @@ on:
         type: string
         required: false
         default: ${{ github.repository }}
+      artifact_hub_config_file:
+        description: Name of the Artifact Hub repository configuration file.
+        type: string
+        required: false
+        default: artifacthub-repo.yaml
 
 jobs:
   check:
@@ -257,7 +262,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          ah_config_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/artifacthub-repo.yml"
+          ah_config_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${{ inputs.artifact_hub_config_file }}"
 
           if [[ -f "${ah_config_path}" ]]
           then
