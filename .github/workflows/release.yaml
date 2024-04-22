@@ -161,7 +161,6 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
 
       - name: Configure Helm repos
@@ -266,26 +265,17 @@ jobs:
 
           if [[ -f "${ah_config_path}" ]]
           then
+            date_epoch="$(git log -1 --format='%ct' "${ah_config_path}")"
+            created_date="$(date -u --date="@${date_epoch}" "+%Y-%m-%dT%H:%M:%SZ" 2>/dev/null)"
+
+            image_config_path="$(mktemp)"
+            echo "{}" > "${image_config_path}"
+
             media_type="application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
             oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
             oci_image="${oci_repository}:artifacthub.io"
 
-            oras login --username "${{ inputs.oci_username }}" --password "${{ secrets.oci_password || secrets.GITHUB_TOKEN }}" "${{ inputs.oci_registry }}"
-
-            old_config_digest="$(crane digest "${oci_image}" || true)"
-
-            if [[ -n "${old_config_digest}" ]]
-            then
-              blob_digest="$(oras manifest fetch --output - "${oci_repository}@${old_config_digest}" | jq -r --arg mediaType "${media_type}" '.layers[] | select(.mediaType == $mediaType) | .digest')"
-
-              if [[ "$(oras blob fetch --output - "${oci_repository}@${blob_digest}")" != "$(cat "${ah_config_path}")" ]]
-              then
-                oras push --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml "${oci_image}" "${ah_config_path}:${media_type}"
-                crane delete "${oci_repository}@${old_config_digest}"
-              fi
-            else
-              oras push --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml "${oci_image}" "${ah_config_path}:${media_type}"
-            fi
+            oras push --annotation "org.opencontainers.image.created=${created_date}" --config "${image_config_path}:application/vnd.cncf.artifacthub.config.v1+yaml" "${oci_image}" "${ah_config_path}:${media_type}"
           fi
 
       - name: Install Cosign
