@@ -14,6 +14,14 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Simplified _Artifact Hub_ config push to use reproducible build patterns. ([#37](https://github.com/action-stars/helm-workflows/pull/37)) _@stevehipwell_
+
+### Fixed
+
+- Fixed _Artifact Hub_ config push to work on more registries. ([#37](https://github.com/action-stars/helm-workflows/pull/37)) _@stevehipwell_
+
 ## [v0.4.0] - 2024-04-19
 
 ### Added
