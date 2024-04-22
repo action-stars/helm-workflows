@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.5.0] - 2024-04-22
+
 ### Changed
 
 - Simplified _Artifact Hub_ config push to use reproducible build patterns. ([#37](https://github.com/action-stars/helm-workflows/pull/37)) _@stevehipwell_
@@ -202,7 +204,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.4.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.0...HEAD
+[v0.5.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.0
 [v0.4.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.4.0
 [v0.3.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.5
 [v0.3.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.3.4
