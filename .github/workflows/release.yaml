@@ -223,7 +223,7 @@ jobs:
           cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
 
           echo "path=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
-          echo "release_notes_file=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
+          echo "release_notes_file=${release_notes_file}" >> "${GITHUB_OUTPUT}"
 
       - name: Create chart GH release
         run: |

@@ -14,6 +14,15 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated `actions/checkout` from `v4.1.3` to [v4.1.4](https://github.com/actions/checkout/releases/tag/v4.1.4). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
+- Updated `helm/kind-action` from `1.9.0` to [1.10.0](https://github.com/helm/kind-action/releases/tag/v1.9.0). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
+
+### Fixed
+
+- Fixed incorrect release notes file. ([#40](https://github.com/action-stars/helm-workflows/pull/40)) _@stevehipwell_
+
 ## [v0.5.1] - 2024-04-22
 
 ### Changed
