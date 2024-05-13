@@ -14,12 +14,17 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated _actions/checkout_ from `4.1.4` to [`4.1.5`](https://github.com/actions/checkout/releases/tag/v4.1.5). ([#41](https://github.com/action-stars/helm-workflows/pull/41)) _@dependabot_
+- Updated _action-stars/install-tool-from-github-release_ from `0.2.2` to [`0.2.3`](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.3). ([#41](https://github.com/action-stars/helm-workflows/pull/41)) _@dependabot_
+
 ## [v0.5.2] - 2024-04-29
 
 ### Changed
 
-- Updated `actions/checkout` from `v4.1.3` to [v4.1.4](https://github.com/actions/checkout/releases/tag/v4.1.4). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
-- Updated `helm/kind-action` from `1.9.0` to [1.10.0](https://github.com/helm/kind-action/releases/tag/v1.9.0). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
+- Updated _actions/checkout_ from `4.1.3` to [`4.1.4`](https://github.com/actions/checkout/releases/tag/v4.1.4). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
+- Updated _helm/kind-action_ from `1.9.0` to [`1.10.0`](https://github.com/helm/kind-action/releases/tag/v1.9.0). ([#39](https://github.com/action-stars/helm-workflows/pull/39)) _@dependabot_
 
 ### Fixed
 
@@ -29,7 +34,7 @@
 
 ### Changed
 
-- Updated `actions/checkout` from `v4.1.2` to [v4.1.3](https://github.com/actions/checkout/releases/tag/v4.1.3). ([#38](https://github.com/action-stars/helm-workflows/pull/38)) _@dependabot_
+- Updated `actions/checkout` from `v4.1.2` to [4.1.3](https://github.com/actions/checkout/releases/tag/v4.1.3). ([#38](https://github.com/action-stars/helm-workflows/pull/38)) _@dependabot_
 
 ## [v0.5.0] - 2024-04-22
 
