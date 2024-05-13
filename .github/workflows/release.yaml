@@ -75,13 +75,13 @@ jobs:
       matrix: ${{ steps.charts.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Install YQ
-        uses: action-stars/install-tool-from-github-release@9019d0a3125e2f45a48858afb632e6dbef663d79 # v0.2.2
+        uses: action-stars/install-tool-from-github-release@243ac555111a84756285bf7dc55df821a55d32d9 # v0.2.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: mikefarah
@@ -143,12 +143,12 @@ jobs:
         chart: ${{ fromJson(needs.check.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           fetch-depth: 0
 
       - name: Install YQ
-        uses: action-stars/install-tool-from-github-release@9019d0a3125e2f45a48858afb632e6dbef663d79 # v0.2.2
+        uses: action-stars/install-tool-from-github-release@243ac555111a84756285bf7dc55df821a55d32d9 # v0.2.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: mikefarah
@@ -248,7 +248,7 @@ jobs:
 
       - name: Install ORAS
         if: inputs.publish_oci
-        uses: action-stars/install-tool-from-github-release@9019d0a3125e2f45a48858afb632e6dbef663d79 # v0.2.2
+        uses: action-stars/install-tool-from-github-release@243ac555111a84756285bf7dc55df821a55d32d9 # v0.2.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: oras-project
