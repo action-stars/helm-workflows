@@ -16,7 +16,7 @@
 
 ### Changed
 
-- Updated _actions/checkout_ from `4.1.4` to [`4.1.5`](https://github.com/actions/checkout/releases/tag/v4.1.5). ([#41](https://github.com/action-stars/helm-workflows/pull/41)) _@dependabot_
+- Updated _actions/checkout_ from `4.1.4` to [`4.1.6`](https://github.com/actions/checkout/releases/tag/v4.1.6). ([#41](https://github.com/action-stars/helm-workflows/pull/41) & [#42](https://github.com/action-stars/helm-workflows/pull/42)) _@dependabot_
 - Updated _action-stars/install-tool-from-github-release_ from `0.2.2` to [`0.2.3`](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.3). ([#41](https://github.com/action-stars/helm-workflows/pull/41)) _@dependabot_
 
 ## [v0.5.2] - 2024-04-29
