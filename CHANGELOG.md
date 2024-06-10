@@ -14,10 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.5.3] - 2024-06-10
+
 ### Changed
 
 - Updated _actions/checkout_ from `4.1.4` to [`4.1.6`](https://github.com/actions/checkout/releases/tag/v4.1.6). ([#41](https://github.com/action-stars/helm-workflows/pull/41) & [#42](https://github.com/action-stars/helm-workflows/pull/42)) _@dependabot_
 - Updated _action-stars/install-tool-from-github-release_ from `0.2.2` to [`0.2.3`](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.3). ([#41](https://github.com/action-stars/helm-workflows/pull/41)) _@dependabot_
+- Updated `docker/login-action` from `v3.1.0` to [`v3.2.0`](https://github.com/docker/login-action/releases/tag/v3.2.0). ([#43](https://github.com/action-stars/helm-workflows/pull/43)) _@dependabot_
 
 ## [v0.5.2] - 2024-04-29
 
@@ -226,7 +229,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.2...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.3...HEAD
+[v0.5.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.3
 [v0.5.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.2
 [v0.5.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.1
 [v0.5.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.0
