@@ -75,7 +75,7 @@ jobs:
       matrix: ${{ steps.charts.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -143,7 +143,7 @@ jobs:
         chart: ${{ fromJson(needs.check.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           fetch-depth: 0
 
@@ -244,7 +244,7 @@ jobs:
 
       - name: Install Crane
         if: inputs.publish_oci
-        uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+        uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
       - name: Install ORAS
         if: inputs.publish_oci
