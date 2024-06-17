@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.5.4] - 2024-06-17
+
+### Changed
+
+- Updated _actions/checkout_ from `4.1.6` to [`4.1.7`](https://github.com/actions/checkout/releases/tag/v4.1.7). ([#44](https://github.com/action-stars/helm-workflows/pull/44)) _@dependabot_
+- Updated _imjasonh/setup-crane_ from `0.3` to [`0.4`](https://github.com/actions/checkout/releases/tag/v0.4). ([#44](https://github.com/action-stars/helm-workflows/pull/44)) _@dependabot_
+
 ## [v0.5.3] - 2024-06-10
 
 ### Changed
@@ -229,7 +236,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.3...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.4...HEAD
+[v0.5.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.4
 [v0.5.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.3
 [v0.5.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.2
 [v0.5.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.1
