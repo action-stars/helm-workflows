@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.5.5] - 2024-07-12
+
 ### Added
 
 - Added `helm_docs_args` input to support customising the `helm-docs` usage. ([#47](https://github.com/action-stars/helm-workflows/pull/47)) _@stevehipwell_
@@ -244,7 +246,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.4...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.5...HEAD
+[v0.5.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.5
 [v0.5.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.4
 [v0.5.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.3
 [v0.5.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.2
