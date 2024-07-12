@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added `helm_docs_args` input to support customising the `helm-docs` usage. ([#47](https://github.com/action-stars/helm-workflows/pull/47)) _@stevehipwell_
+
 ### Changed
 
 - Updated _action-stars/install-tool-from-github-release_ from `0.2.3` to [`0.2.4`](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.4). ([#46](https://github.com/action-stars/helm-workflows/pull/46)) _@dependabot_

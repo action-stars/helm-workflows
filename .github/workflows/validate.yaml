@@ -28,6 +28,11 @@ on:
         type: boolean
         required: false
         default: false
+      helm_docs_args:
+        description: Args for the helm-docs command.
+        type: string
+        required: false
+        default: ""
       changelog:
         description: If the CHANGELOG needs to be validated.
         type: boolean
@@ -156,7 +161,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          helm-docs
+          helm-docs ${{ inputs.helm_docs_args }}
           if [[ -n "$(git status --porcelain --untracked-files=no)" ]]
           then
             echo "Documentation not up to date; please run helm-docs and commit changes!" >&2
