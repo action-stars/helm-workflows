@@ -1,0 +1,7 @@
+issuer: https://token.actions.githubusercontent.com
+subject: repo:action-stars/helm-workflows:pull_request
+base_ref: refs/heads/main
+actor: dependabot[bot]
+
+permissions:
+  contents: write
