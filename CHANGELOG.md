@@ -17,6 +17,7 @@
 ### Changed
 
 - Updated _actions/setup-python_ from `5.1.0` to [`5.1.1`](https://github.com/actions/setup-python/releases/tag/v5.1.1). ([#48](https://github.com/action-stars/helm-workflows/pull/48)) _@dependabot_
+- Updated _docker/login-action_ from `3.2.0` to [`3.3.0`](https://github.com/docker/login-action/releases/tag/v3.3.0). ([#50](https://github.com/action-stars/helm-workflows/pull/50)) _@dependabot_
 
 ## [v0.5.5] - 2024-07-12
 
