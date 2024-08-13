@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.6.0] - 2024-08-13
+
 ### Added
 
 - Added support for [GitHub Artifact Attestation](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds) for OCI Helm charts.
@@ -255,7 +257,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.5.5...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.0...HEAD
+[v0.6.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.0
 [v0.5.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.5
 [v0.5.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.4
 [v0.5.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.3
