@@ -129,6 +129,7 @@ jobs:
     name: Release Helm charts
     runs-on: ubuntu-latest
     permissions:
+      attestations: write
       contents: write
       id-token: write
       packages: write
@@ -192,8 +193,8 @@ jobs:
           echo "version=$(yq eval '.version' './${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml')" >> "${GITHUB_OUTPUT}"
 
       - name: Get changelog entry
-        if: inputs.release_notes
         id: changelog_reader
+        if: inputs.release_notes
         uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
         with:
           path: ./${{ inputs.chart_dir }}/${{ matrix.chart }}/CHANGELOG.md
@@ -257,9 +258,12 @@ jobs:
           version: latest
 
       - name: Configure OCI repository
+        id: oci
         if: inputs.publish_oci
         run: |
           set -euo pipefail
+
+          oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
 
           ah_config_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${{ inputs.artifact_hub_config_file }}"
 
@@ -272,29 +276,45 @@ jobs:
             echo "{}" > "${image_config_path}"
 
             media_type="application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml"
-            oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
             oci_image="${oci_repository}:artifacthub.io"
 
             oras push --annotation "org.opencontainers.image.created=${created_date}" --config "${image_config_path}:application/vnd.cncf.artifacthub.config.v1+yaml" "${oci_image}" "${ah_config_path}:${media_type}"
           fi
+
+          {
+            echo "repository=${oci_repository}"
+          } >> "${GITHUB_OUTPUT}"
 
       - name: Install Cosign
         if: inputs.publish_oci
         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
 
       - name: Publish chart to OCI repository
+        id: publish_oci
         if: inputs.publish_oci
         run: |
           set -euo pipefail
 
-          oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
+          oci_repository="${{ steps.oci.outputs.repository }}"
           oci_image="${oci_repository}:${{ steps.chart_version.outputs.version }}"
 
           helm registry login --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} "${{ inputs.oci_registry }}"
-          helm push ${{ steps.package.outputs.path }} "oci://${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}"
+          helm push ${{ steps.package.outputs.path }} "oci://$(dirname "${oci_repository}")"
 
           digest="$(crane digest "${oci_image}")"
           cosign sign --yes "${oci_image}@${digest}"
+
+          {
+            echo "image=${oci_image}"
+            echo "digest=${digest}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Attest OCI image
+        uses: actions/attest-build-provenance@310b0a4a3b0b78ef57ecda988ee04b132db73ef8 # v1.4.1
+        with:
+          subject-name: ${{ steps.oci.outputs.repository }}
+          subject-digest: ${{ steps.publish_oci.outputs.digest }}
+          push-to-registry: true
 
       - name: Publish chart to GH Pages
         if: inputs.publish_gh_pages

@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added support for [GitHub Artifact Attestation](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds) for OCI Helm charts.
+
 ### Changed
 
 - Updated _actions/setup-python_ from `5.1.0` to [`5.1.1`](https://github.com/actions/setup-python/releases/tag/v5.1.1). ([#48](https://github.com/action-stars/helm-workflows/pull/48)) _@dependabot_
