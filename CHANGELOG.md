@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.6.1] - 2024-08-13
+
+### Changed
+
+- Updated `sigstore/cosign-installer` from `3.5.0` to [`3.6.0`](https://github.com/sigstore/cosign-installer/releases/tag/v3.6.0). ([#52](https://github.com/action-stars/helm-workflows/pull/52)) _@dependabot_
+
 ## [v0.6.0] - 2024-08-13
 
 ### Added
@@ -257,7 +263,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.1...HEAD
+[v0.6.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.1
 [v0.6.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.0
 [v0.5.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.5
 [v0.5.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.4
