@@ -14,11 +14,15 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated _actions/attest-build-provenance_ from `1.4.1` to [`1.4.2`](https://github.com/actions/attest-build-provenance/releases/tag/v1.4.2). ([#54](https://github.com/action-stars/helm-workflows/pull/54)) _@dependabot_
+
 ## [v0.6.1] - 2024-08-13
 
 ### Changed
 
-- Updated `sigstore/cosign-installer` from `3.5.0` to [`3.6.0`](https://github.com/sigstore/cosign-installer/releases/tag/v3.6.0). ([#52](https://github.com/action-stars/helm-workflows/pull/52)) _@dependabot_
+- Updated _sigstore/cosign-installer_ from `3.5.0` to [`3.6.0`](https://github.com/sigstore/cosign-installer/releases/tag/v3.6.0). ([#52](https://github.com/action-stars/helm-workflows/pull/52)) _@dependabot_
 
 ## [v0.6.0] - 2024-08-13
 
