@@ -17,6 +17,7 @@
 ### Changed
 
 - Updated _actions/attest-build-provenance_ from `1.4.1` to [`1.4.2`](https://github.com/actions/attest-build-provenance/releases/tag/v1.4.2). ([#54](https://github.com/action-stars/helm-workflows/pull/54)) _@dependabot_
+- Updated _actions/setup-python_ from `5.1.1` to [`5.2.0`](https://github.com/actions/setup-python/releases/tag/v5.2.0). ([#55](https://github.com/action-stars/helm-workflows/pull/55)) _@dependabot_
 
 ## [v0.6.1] - 2024-08-13
 
