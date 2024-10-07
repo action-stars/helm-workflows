@@ -14,10 +14,14 @@
 
 ## [UNRELEASED]
 
+## [v0.6.2] - 2024-10-07
+
 ### Changed
 
 - Updated _actions/attest-build-provenance_ from `1.4.1` to [`1.4.3`](https://github.com/actions/attest-build-provenance/releases/tag/v1.4.3). ([#54](https://github.com/action-stars/helm-workflows/pull/54) & [#56](https://github.com/action-stars/helm-workflows/pull/56)) _@dependabot_
 - Updated _actions/setup-python_ from `5.1.1` to [`5.2.0`](https://github.com/actions/setup-python/releases/tag/v5.2.0). ([#55](https://github.com/action-stars/helm-workflows/pull/55)) _@dependabot_
+- Updated _actions/checkout_ from `4.1.7` to [`4.2.0`](https://github.com/actions/checkout/releases/tag/v4.2.0). ([#58](https://github.com/action-stars/helm-workflows/pull/58)) _@dependabot_
+- Updated `sigstore/cosign-installer` from `3.6.0` to [3.7.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.7.0). ([#58](https://github.com/action-stars/helm-workflows/pull/58)) _@dependabot_
 
 ## [v0.6.1] - 2024-08-13
 
@@ -268,7 +272,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.1...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.2...HEAD
+[v0.6.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.2
 [v0.6.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.1
 [v0.6.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.0
 [v0.5.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.5.5
