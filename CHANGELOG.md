@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.6.4] - 2024-10-28
+
+### Changed
+
+- Updated _actions/checkout_ from `4.2.1` to [`4.2.2`](https://github.com/actions/checkout/releases/tag/v4.2.2). ([#60](https://github.com/action-stars/helm-workflows/pull/60)) _@dependabot_
+- Updated _actions/setup-python_ from `5.2.0` to [`5.3.0`](https://github.com/actions/setup-python/releases/tag/v5.3.0). ([#60](https://github.com/action-stars/helm-workflows/pull/60)) _@dependabot_
+
 ## [v0.6.3] - 2024-10-14
 
 ### Changed
@@ -278,7 +285,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.3...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.4...HEAD
+[v0.6.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.4
 [v0.6.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.3
 [v0.6.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.2
 [v0.6.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.1
