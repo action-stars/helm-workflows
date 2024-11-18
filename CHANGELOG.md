@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Updated _actions/attest-build-provenance_ from `1.4.3` to [`1.4.4`](https://github.com/actions/attest-build-provenance/releases/tag/v1.4.4). ([#62](https://github.com/action-stars/helm-workflows/pull/62)) _@dependabot_
+
 ## [v0.6.4] - 2024-10-28
 
 ### Changed
