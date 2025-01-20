@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.7.0] - 2025-01-20
+
+### Changed
+
+- Updated _helm/chart-releaser-action_ from `1.6.0` to [`1.7.0`](https://github.com/helm/chart-releaser-action/releases/tag/v1.7.0). ([#67](https://github.com/action-stars/helm-workflows/pull/67)) _@dependabot_
+- Updated _helm/chart-testing-action_ from `2.6.1` to [`2.7.0`](https://github.com/helm/chart-testing-action/releases/tag/v2.7.0). ([#67](https://github.com/action-stars/helm-workflows/pull/67)) _@dependabot_
+
 ## [v0.6.6] - 2025-01-02
 
 ### Changed
@@ -298,7 +305,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.6.6...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.7.0...HEAD
+[v0.7.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.7.0
 [v0.6.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.6
 [v0.6.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.5
 [v0.6.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.4
