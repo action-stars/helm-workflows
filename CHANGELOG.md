@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.8.0] - 2025-02-26
+
 ### Added
 
 - Added automation for creating the chart changes annotations from the CHANGELOG if release notes are enabled. ([#72](https://github.com/action-stars/helm-workflows/pull/72)) _@stevehipwell_
@@ -317,7 +319,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.7.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.0...HEAD
+[v0.8.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.0
 [v0.7.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.7.0
 [v0.6.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.6
 [v0.6.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.6.5
