@@ -253,38 +253,43 @@ jobs:
             removed="$(mdq --link-format inline '# Removed | -' <"${release_notes_path}" || true)"
             fixed="$(mdq --link-format inline '# Fixed | -' <"${release_notes_path}" || true)"
             security="$(mdq --link-format inline '# Security | -' <"${release_notes_path}" || true)"
-            changes=""
+
+            changes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/changes.txt"
+            rm -f "${changes_path}"
 
             old_ifs="${IFS}"
             IFS=$'\n'
 
             for item in ${added}; do
-              changes+="$(printf -- '- kind: added\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: added\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             for item in ${changed}; do
-              changes+="$(printf -- '- kind: changed\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: changed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             for item in ${deprecated}; do
-              changes+="$(printf -- '- kind: deprecated\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: deprecated\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             for item in ${removed}; do
-              changes+="$(printf -- '- kind: removed\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: removed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             for item in ${fixed}; do
-              changes+="$(printf -- '- kind: fixed\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: fixed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             for item in ${security}; do
-              changes+="$(printf -- '- kind: security\n  description: "%s"\n' "${item#- }")"
+              printf -- '- kind: security\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
             done
 
             IFS="${old_ifs}"
 
-            ychanges="${changes}" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(ychanges)' "./${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml"
+            if [[ -f "${changes_path}" ]]; then
+              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "./${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml"
+              rm -f "${changes_path}"
+            fi
           fi
 
           if [[ "${{ inputs.ah_lint }}" == "true" ]]; then
