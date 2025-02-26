@@ -62,6 +62,11 @@ on:
         type: string
         required: false
         default: artifacthub-repo.yaml
+      ah_lint:
+        description: If the Artifact Hub linter should be run.
+        type: boolean
+        required: false
+        default: true
 
 jobs:
   check:
@@ -83,7 +88,7 @@ jobs:
       - name: Install YQ
         uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           owner: mikefarah
           repository: yq
           extract: false
@@ -151,12 +156,37 @@ jobs:
       - name: Install YQ
         uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           owner: mikefarah
           repository: yq
           extract: false
           filename_format: "{name}_{os}_{arch}"
           check_command: yq --version
+          version: latest
+
+      - name: Install MDQ
+        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        if: inputs.release_notes
+        with:
+          github_token: ${{ github.token }}
+          owner: yshavit
+          repository: mdq
+          os_linux: ubuntu
+          extract_mode_linux: zip
+          extract_mode_macos: zip
+          filename_format: "{name}-{os}.{ext}"
+          check_command: mdq --version
+          version: latest
+
+      - name: Install Artifact Hub CLI
+        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        if: ${{ inputs.ah_lint }}
+        with:
+          github_token: ${{ github.token }}
+          owner: artifacthub
+          repository: hub
+          name: ah
+          check_command: ah version
           version: latest
 
       - name: Install Helm
@@ -193,9 +223,9 @@ jobs:
           echo "version=$(yq eval '.version' './${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml')" >> "${GITHUB_OUTPUT}"
 
       - name: Get changelog entry
+        uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
         id: changelog_reader
         if: inputs.release_notes
-        uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
         with:
           path: ./${{ inputs.chart_dir }}/${{ matrix.chart }}/CHANGELOG.md
           version: v${{ steps.chart_version.outputs.version }}
@@ -210,15 +240,55 @@ jobs:
 
           release_notes_file="RELEASE.md"
 
-          if [[ "${{ inputs.release_notes }}" == "true" ]]
-          then
+          if [[ "${{ inputs.release_notes }}" == "true" ]]; then
             release_notes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${release_notes_file}"
 
             cat <<"EOF" > "${release_notes_path}"
           ${{ steps.changelog_reader.outputs.changes }}
           EOF
 
-            sed -r -i 's/\[(@[^]]+)\]\([^)]+\)/\1/g' "${release_notes_path}"
+            added="$(mdq --link-format inline '# Added | -' <"${release_notes_path}" || true)"
+            changed="$(mdq --link-format inline '# Changed | -' <"${release_notes_path}" || true)"
+            deprecated="$(mdq --link-format inline '# Deprecated | -' <"${release_notes_path}" || true)"
+            removed="$(mdq --link-format inline '# Removed | -' <"${release_notes_path}" || true)"
+            fixed="$(mdq --link-format inline '# Fixed | -' <"${release_notes_path}" || true)"
+            security="$(mdq --link-format inline '# Security | -' <"${release_notes_path}" || true)"
+            changes=""
+
+            old_ifs="${IFS}"
+            IFS=$'\n'
+
+            for item in ${added}; do
+              changes+="$(printf -- '- kind: added\n  description: "%s"\n' "${item#- }")"
+            done
+
+            for item in ${changed}; do
+              changes+="$(printf -- '- kind: changed\n  description: "%s"\n' "${item#- }")"
+            done
+
+            for item in ${deprecated}; do
+              changes+="$(printf -- '- kind: deprecated\n  description: "%s"\n' "${item#- }")"
+            done
+
+            for item in ${removed}; do
+              changes+="$(printf -- '- kind: removed\n  description: "%s"\n' "${item#- }")"
+            done
+
+            for item in ${fixed}; do
+              changes+="$(printf -- '- kind: fixed\n  description: "%s"\n' "${item#- }")"
+            done
+
+            for item in ${security}; do
+              changes+="$(printf -- '- kind: security\n  description: "%s"\n' "${item#- }")"
+            done
+
+            IFS="${old_ifs}"
+
+            ychanges="${changes}" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(ychanges)' "./${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml"
+          fi
+
+          if [[ "${{ inputs.ah_lint }}" == "true" ]]; then
+            ah lint --kind helm --path "./${{ inputs.chart_dir }}" || exit 1
           fi
 
           cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
@@ -233,7 +303,7 @@ jobs:
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
           release_name_template="{{ .Name }}-${{ inputs.release_name_version_prefix }}{{ .Version }}"
 
-          cr upload --token=${{ secrets.GITHUB_TOKEN }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=${{ steps.package.outputs.release_notes_file }} --make-release-latest=${{ inputs.release_as_latest }}
+          cr upload --token=${{ github.token }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=${{ steps.package.outputs.release_notes_file }} --make-release-latest=${{ inputs.release_as_latest }}
 
       - name: Login to OCI registry
         if: inputs.publish_oci
@@ -241,7 +311,7 @@ jobs:
         with:
           registry: ${{ inputs.oci_registry }}
           username: ${{ inputs.oci_username }}
-          password: ${{ secrets.oci_password || secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.oci_password || github.token }}
 
       - name: Install Crane
         if: inputs.publish_oci
@@ -251,7 +321,7 @@ jobs:
         if: inputs.publish_oci
         uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
           owner: oras-project
           repository: oras
           check_command: oras version
@@ -298,7 +368,7 @@ jobs:
           oci_repository="${{ steps.oci.outputs.repository }}"
           oci_image="${oci_repository}:${{ steps.chart_version.outputs.version }}"
 
-          helm registry login --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} "${{ inputs.oci_registry }}"
+          helm registry login --username ${{ github.actor }} --password ${{ github.token }} "${{ inputs.oci_registry }}"
           helm push ${{ steps.package.outputs.path }} "oci://$(dirname "${oci_repository}")"
 
           digest="$(crane digest "${oci_image}")"
@@ -326,4 +396,4 @@ jobs:
 
           package_dir="$(dirname ${{ steps.package.outputs.path }})"
 
-          cr index --token=${{ secrets.GITHUB_TOKEN }} --push --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --index-path="${index_dir}/index.yaml"
+          cr index --token=${{ github.token }} --push --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --index-path="${index_dir}/index.yaml"

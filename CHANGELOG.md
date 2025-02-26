@@ -14,6 +14,11 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Added automation for creating the chart changes annotations from the CHANGELOG if release notes are enabled. ([#72](https://github.com/action-stars/helm-workflows/pull/72)) _@stevehipwell_
+- Added AH lint check option for release via the `ah_lint` input variable. ([#72](https://github.com/action-stars/helm-workflows/pull/72)) _@stevehipwell_
+
 ### Changed
 
 - Updated _actions/attest-build-provenance_ from `2.1.0` to [`2.2.0`](https://github.com/actions/attest-build-provenance/releases/tag/v2.2.0). ([#68](https://github.com/action-stars/helm-workflows/pull/68)) _@dependabot_
