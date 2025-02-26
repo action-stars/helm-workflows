@@ -18,7 +18,8 @@
 
 - Updated _actions/attest-build-provenance_ from `2.1.0` to [`2.2.0`](https://github.com/actions/attest-build-provenance/releases/tag/v2.2.0). ([#68](https://github.com/action-stars/helm-workflows/pull/68)) _@dependabot_
 - Updated _actions/setup-python_ from `5.3.0` to [`5.4.0`](https://github.com/actions/setup-python/releases/tag/v5.4.0). ([#69](https://github.com/action-stars/helm-workflows/pull/69)) _@dependabot_
-- Updated _sigstore/cosign-installer_ from `3.7.0` to [3.8.0](https://github.com/sigstore/cosign-installer/releases/tag/v3.8.0). ([#70](https://github.com/action-stars/helm-workflows/pull/70)) _@dependabot_
+- Updated _sigstore/cosign-installer_ from `3.7.0` to [`3.8.1`](https://github.com/sigstore/cosign-installer/releases/tag/v3.8.1). ([#70](https://github.com/action-stars/helm-workflows/pull/70) & [#71](https://github.com/action-stars/helm-workflows/pull/71)) _@dependabot_
+- Updated _azure/setup-helm_ from `4.2.0` to [`4.3.0`](https://github.com/Azure/setup-helm/releases/tag/v4.3.0). ([#71](https://github.com/action-stars/helm-workflows/pull/71)) _@dependabot_
 
 ## [v0.7.0] - 2025-01-20
 
