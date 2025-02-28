@@ -1,4 +1,4 @@
-name: GH Reusable Workflow Release Helm Charts
+name: Release Helm Charts
 
 on:
   workflow_call:

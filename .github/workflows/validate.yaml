@@ -1,4 +1,4 @@
-name: GH Reusable Workflow Validate Helm Charts
+name: Validate Helm Charts
 
 on:
   workflow_call:
