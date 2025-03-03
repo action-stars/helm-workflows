@@ -19,7 +19,7 @@ on:
         required: false
         default: main
       helm_repos:
-        description: List of Helm repos to install; as a comma separated list in the format <name>=<address>.
+        description: List of Helm repos to install; as a comma separated list in the format `<name>=<address>`.
         type: string
         required: false
         default: ""
@@ -49,7 +49,7 @@ on:
         required: false
         default: true
       kubeconform_k8s_versions:
-        description: List of Kubernetes versions to use for Kubeconform; as a comma separated list in the format <major>.<minor>.<patch>.
+        description: List of Kubernetes versions to use for Kubeconform; as a comma separated list in the format `<major>.<minor>.<patch>`.
         type: string
         required: false
         default: ""
@@ -190,7 +190,7 @@ jobs:
             fixed="$(mdq --link-format inline "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
             security="$(mdq --link-format inline "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
 
-            changes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/changes.txt"
+            changes_path="./${{ inputs.chart_dir }}/${chart}/changes.txt"
             rm -f "${changes_path}"
 
             old_ifs="${IFS}"
