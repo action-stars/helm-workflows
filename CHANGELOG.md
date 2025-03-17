@@ -17,7 +17,8 @@
 
 ### Changed
 
-- Updated _actions/attest-build-provenance_ from `2.2.0` to [`2.2.3`](https://github.com/actions/attest-build-provenance/releases/tag/v2.2.3). ([#74](https://github.com/action-stars/helm-workflows/pull/74) & [#76](https://github.com/action-stars/helm-workflows/pull/76)) _@dependabot_
+- Update _actions/attest-build-provenance_ from `2.2.0` to [`2.2.3`](https://github.com/actions/attest-build-provenance/releases/tag/v2.2.3). ([#74](https://github.com/action-stars/helm-workflows/pull/74) & [#76](https://github.com/action-stars/helm-workflows/pull/76)) _@dependabot_
+- Update _docker/login-action_ from `3.3.0` to [`3.4.0`](https://github.com/docker/login-action/releases/tag/v3.4.0). ([#77](https://github.com/action-stars/helm-workflows/pull/77)) _@dependabot_
 
 ## [v0.8.1] - 2025-02-26
 
