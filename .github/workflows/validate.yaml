@@ -163,7 +163,7 @@ jobs:
           extract_mode_macos: zip
           filename_format: "{name}-{os}.{ext}"
           check_command: mdq --version
-          version: latest
+          version: 0.3.0
 
       - name: Run CHANGELOG check
         if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
