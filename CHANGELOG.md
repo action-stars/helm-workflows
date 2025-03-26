@@ -15,6 +15,8 @@
 
 ## [UNRELEASED]
 
+## [v0.8.2] - 2025-03-26
+
 ### Changed
 
 - Update _actions/attest-build-provenance_ from `2.2.0` to [`2.2.3`](https://github.com/actions/attest-build-provenance/releases/tag/v2.2.3). ([#74](https://github.com/action-stars/helm-workflows/pull/74) & [#76](https://github.com/action-stars/helm-workflows/pull/76)) _@dependabot_
@@ -332,7 +334,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.1...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.2...HEAD
+[v0.8.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.2
 [v0.8.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.1
 [v0.8.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.0
 [v0.7.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.7.0
