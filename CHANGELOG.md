@@ -15,6 +15,12 @@
 
 ## [UNRELEASED]
 
+## [v0.8.3] - 2025-03-28
+
+### Changed
+
+- Reverted _MDQ_ version to `latest`. ([#79](https://github.com/action-stars/helm-workflows/pull/79)) _@stevehipwell_
+
 ## [v0.8.2] - 2025-03-26
 
 ### Changed
@@ -334,7 +340,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.2...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.3...HEAD
+[v0.8.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.3
 [v0.8.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.2
 [v0.8.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.1
 [v0.8.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.0
