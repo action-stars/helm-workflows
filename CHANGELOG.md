@@ -15,6 +15,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _actions/setup-python_ from `5.4.0` to [`5.5.0`](https://github.com/actions/setup-python/releases/tag/v5.5.0). ([#80](https://github.com/action-stars/helm-workflows/pull/80)) _@dependabot_
+
 ## [v0.8.3] - 2025-03-28
 
 ### Changed
