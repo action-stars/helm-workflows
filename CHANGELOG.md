@@ -15,9 +15,17 @@
 
 ## [UNRELEASED]
 
+## [v0.8.4] - 2025-04-30
+
 ### Changed
 
 - Update _actions/setup-python_ from `5.4.0` to [`5.5.0`](https://github.com/actions/setup-python/releases/tag/v5.5.0). ([#80](https://github.com/action-stars/helm-workflows/pull/80)) _@dependabot_
+- Update _actions/setup-python_ from `5.5.0` to [`5.6.0`](https://github.com/actions/setup-python/releases/tag/v5.6.0). ([#81](https://github.com/action-stars/helm-workflows/pull/81)) _@dependabot_
+- Update _sigstore/cosign-installer_ from `3.8.1` to [`3.8.2`](https://github.com/sigstore/cosign-installer/releases/tag/v3.8.2). ([#81](https://github.com/action-stars/helm-workflows/pull/81)) _@dependabot_
+
+### Fixed
+
+- Fix MDQ release asset name. ([#82](https://github.com/action-stars/helm-workflows/pull/82)) _@stevehipwell_
 
 ## [v0.8.3] - 2025-03-28
 
@@ -344,7 +352,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.3...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.4...HEAD
+[v0.8.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.4
 [v0.8.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.3
 [v0.8.2]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.2
 [v0.8.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.1

@@ -158,10 +158,8 @@ jobs:
           github_token: ${{ github.token }}
           owner: yshavit
           repository: mdq
-          os_linux: ubuntu
-          extract_mode_linux: zip
-          extract_mode_macos: zip
-          filename_format: "{name}-{os}.{ext}"
+          arch_amd64: x64
+          filename_format: "{name}-{os}-{arch}.{ext}"
           check_command: mdq --version
           version: latest
 
