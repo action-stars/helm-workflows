@@ -18,6 +18,7 @@
 ### Changed
 
 - Update _actions/attest-build-provenance_ from `2.2.3` to [`2.3.0`](https://github.com/actions/attest-build-provenance/releases/tag/v2.3.0). ([#83](https://github.com/action-stars/helm-workflows/pull/83)) _@dependabot_
+- Updated _action-stars/install-tool-from-github-release_ from `0.2.4` to [`0.2.5`](https://github.com/action-stars/install-tool-from-github-release/releases/tag/v0.2.5). ([#84](https://github.com/action-stars/helm-workflows/pull/84)) _@dependabot_
 
 ## [v0.8.4] - 2025-04-30
 
