@@ -116,7 +116,7 @@ jobs:
           fi
 
       - name: Install Helm Docs
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
         with:
           github_token: ${{ github.token }}
@@ -140,7 +140,7 @@ jobs:
           fi
 
       - name: Install YQ
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
         with:
           github_token: ${{ github.token }}
@@ -152,7 +152,7 @@ jobs:
           version: latest
 
       - name: Install MDQ
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
         with:
           github_token: ${{ github.token }}
@@ -227,7 +227,7 @@ jobs:
           done
 
       - name: Install Artifact Hub CLI
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         if: ${{ inputs.ah_lint && steps.changes.outputs.changed == 'true' }}
         with:
           github_token: ${{ github.token }}
@@ -246,7 +246,7 @@ jobs:
         run: ct lint --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }} --check-version-increment=false --chart-repos="${{ inputs.helm_repos }}"
 
       - name: Install Kubeconform
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         if: ${{ inputs.kubeconform && steps.changes.outputs.changed == 'true' }}
         with:
           github_token: ${{ github.token }}
