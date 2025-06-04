@@ -15,6 +15,10 @@
 
 ## [UNRELEASED]
 
+### Fixed
+
+- Fix erroneous `---` chart annotations being generated from the CHANGELOG. ([#86](https://github.com/action-stars/helm-workflows/pull/86)) _@stevehipwell_
+
 ## [v0.8.5] - 2025-05-12
 
 ### Changed

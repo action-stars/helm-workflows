@@ -174,19 +174,19 @@ jobs:
             chart_file_path="./${{ inputs.chart_dir }}/${chart}/Chart.yaml"
             changelog_file_path="./${{ inputs.chart_dir }}/${chart}/CHANGELOG.md"
             version="$(yq eval '.version' "${chart_file_path}")"
-            entry="$(mdq --link-format inline "# v${version}" <"${changelog_file_path}" || true)"
+            entry="$(mdq --no-br --link-format inline "# v${version}" <"${changelog_file_path}" || true)"
             if [[ -z "${entry}" ]]
             then
               echo "No CHANGELOG entry for ${chart} version ${version}!" >&2
               exit 1
             fi
 
-            added="$(mdq --link-format inline "# v${version} | # Added | -" <"${changelog_file_path}" || true)"
-            changed="$(mdq --link-format inline "# v${version} | # Changed | -" <"${changelog_file_path}" || true)"
-            deprecated="$(mdq --link-format inline "# v${version} | # Deprecated | -" <"${changelog_file_path}" || true)"
-            removed="$(mdq --link-format inline "# v${version} | # Removed | -" <"${changelog_file_path}" || true)"
-            fixed="$(mdq --link-format inline "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
-            security="$(mdq --link-format inline "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
+            added="$(mdq --output plain "# v${version} | # Added | -" <"${changelog_file_path}" || true)"
+            changed="$(mdq --output plain "# v${version} | # Changed | -" <"${changelog_file_path}" || true)"
+            deprecated="$(mdq --output plain "# v${version} | # Deprecated | -" <"${changelog_file_path}" || true)"
+            removed="$(mdq --output plain "# v${version} | # Removed | -" <"${changelog_file_path}" || true)"
+            fixed="$(mdq --output plain "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
+            security="$(mdq --output plain "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
 
             changes_path="./${{ inputs.chart_dir }}/${chart}/changes.txt"
             rm -f "${changes_path}"
@@ -195,32 +195,36 @@ jobs:
             IFS=$'\n'
 
             for item in ${added}; do
-              printf -- '- kind: added\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: added\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${changed}; do
-              printf -- '- kind: changed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: changed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${deprecated}; do
-              printf -- '- kind: deprecated\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: deprecated\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${removed}; do
-              printf -- '- kind: removed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: removed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${fixed}; do
-              printf -- '- kind: fixed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: fixed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${security}; do
-              printf -- '- kind: security\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: security\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             IFS="${old_ifs}"
 
             if [[ -f "${changes_path}" ]]; then
+              echo "::group::Changes"
+              cat "${changes_path}"
+              echo "::endgroup::"
+
               changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "${chart_file_path}"
               rm -f "${changes_path}"
             fi
