@@ -15,6 +15,8 @@
 
 ## [UNRELEASED]
 
+## [v0.8.6] - 2025-06-04
+
 ### Fixed
 
 - Fix erroneous `---` chart annotations being generated from the CHANGELOG. ([#86](https://github.com/action-stars/helm-workflows/pull/86)) _@stevehipwell_
@@ -363,7 +365,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.5...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.6...HEAD
+[v0.8.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.6
 [v0.8.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.5
 [v0.8.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.4
 [v0.8.3]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.3
