@@ -245,12 +245,12 @@ jobs:
           ${{ steps.changelog_reader.outputs.changes }}
           EOF
 
-            added="$(mdq --link-format inline '# Added | -' <"${release_notes_path}" || true)"
-            changed="$(mdq --link-format inline '# Changed | -' <"${release_notes_path}" || true)"
-            deprecated="$(mdq --link-format inline '# Deprecated | -' <"${release_notes_path}" || true)"
-            removed="$(mdq --link-format inline '# Removed | -' <"${release_notes_path}" || true)"
-            fixed="$(mdq --link-format inline '# Fixed | -' <"${release_notes_path}" || true)"
-            security="$(mdq --link-format inline '# Security | -' <"${release_notes_path}" || true)"
+            added="$(mdq --output plain '# Added | -' <"${release_notes_path}" || true)"
+            changed="$(mdq --output plain '# Changed | -' <"${release_notes_path}" || true)"
+            deprecated="$(mdq --output plain '# Deprecated | -' <"${release_notes_path}" || true)"
+            removed="$(mdq --output plain '# Removed | -' <"${release_notes_path}" || true)"
+            fixed="$(mdq --output plain '# Fixed | -' <"${release_notes_path}" || true)"
+            security="$(mdq --output plain '# Security | -' <"${release_notes_path}" || true)"
 
             changes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/changes.txt"
             rm -f "${changes_path}"
@@ -259,27 +259,27 @@ jobs:
             IFS=$'\n'
 
             for item in ${added}; do
-              printf -- '- kind: added\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: added\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${changed}; do
-              printf -- '- kind: changed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: changed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${deprecated}; do
-              printf -- '- kind: deprecated\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: deprecated\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${removed}; do
-              printf -- '- kind: removed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: removed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${fixed}; do
-              printf -- '- kind: fixed\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: fixed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             for item in ${security}; do
-              printf -- '- kind: security\n  description: "%s"\n' "${item#- }" >> "${changes_path}"
+              printf -- '- kind: security\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
             done
 
             IFS="${old_ifs}"
