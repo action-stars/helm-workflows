@@ -15,6 +15,8 @@
 
 ## [UNRELEASED]
 
+## [v0.8.7] - 2025-06-30
+
 ### Changed
 
 - Update _action-stars/generic-workflows_ from `0.5.3` to `0.6.0`. ([#89](https://github.com/action-stars/helm-workflows/pull/89)) _@dependabot_
@@ -371,7 +373,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.6...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.7...HEAD
+[v0.8.7]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.7
 [v0.8.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.6
 [v0.8.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.5
 [v0.8.4]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.4
