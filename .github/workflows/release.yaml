@@ -360,7 +360,7 @@ jobs:
 
       - name: Install Cosign
         if: inputs.publish_oci
-        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
+        uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3.9.1
 
       - name: Publish chart to OCI repository
         id: publish_oci
@@ -383,7 +383,7 @@ jobs:
           } >> "${GITHUB_OUTPUT}"
 
       - name: Attest OCI image
-        uses: actions/attest-build-provenance@db473fddc028af60658334401dc6fa3ffd8669fd # v2.3.0
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
         with:
           subject-name: ${{ steps.oci.outputs.repository }}
           subject-digest: ${{ steps.publish_oci.outputs.digest }}
