@@ -15,6 +15,12 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _action-stars/generic-workflows_ from `0.5.3` to `0.6.0`. ([#89](https://github.com/action-stars/helm-workflows/pull/89)) _@dependabot_
+- Update _sigstore/cosign-installer_ from `3.8.2` to `3.9.1`. ([#89](https://github.com/action-stars/helm-workflows/pull/89)) _@dependabot_
+- Update _actions/attest-build-provenance_ from `2.3.0` to `2.4.0`. ([#89](https://github.com/action-stars/helm-workflows/pull/89)) _@dependabot_
+
 ## [v0.8.6] - 2025-06-04
 
 ### Fixed
