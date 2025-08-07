@@ -15,6 +15,11 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _docker/login-action_ from `3.4.0` to `3.5.0`. ([#91](https://github.com/action-stars/helm-workflows/pull/91)) _@dependabot_
+- Update _sigstore/cosign-installer_ from `3.9.1` to `3.9.2`. ([#91](https://github.com/action-stars/helm-workflows/pull/91)) _@dependabot_
+
 ## [v0.8.7] - 2025-06-30
 
 ### Changed
