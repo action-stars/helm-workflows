@@ -15,12 +15,14 @@
 
 ## [UNRELEASED]
 
+## [v0.8.8] - 2025-09-03
+
 ### Changed
 
 - Update _docker/login-action_ from `3.4.0` to `3.5.0`. ([#91](https://github.com/action-stars/helm-workflows/pull/91)) _@dependabot_
 - Update _sigstore/cosign-installer_ from `3.9.1` to `3.9.2`. ([#91](https://github.com/action-stars/helm-workflows/pull/91)) _@dependabot_
 - Update _action-stars/generic-workflows_ from `0.6.0` to `0.7.0`. ([#93](https://github.com/action-stars/helm-workflows/pull/93)) _@dependabot_
-- Update _[actions/checkout](https://github.com/actions/checkout)_ from `4.2.2` to `5.0.0`. ([#94](https://github.com/action-stars/helm-workflows/pull/94)) _@dependabot_
+- Update _actions/checkout_ from `4.2.2` to `5.0.0`. ([#94](https://github.com/action-stars/helm-workflows/pull/94)) _@dependabot_
 - Update _action-stars/generic-workflows_ from `0.7.0` to `0.7.1`. ([#96](https://github.com/action-stars/helm-workflows/pull/96)) _@dependabot_
 - Update _azure/setup-helm_ from `4.3.0` to `4.3.1`. ([#96](https://github.com/action-stars/helm-workflows/pull/96)) _@dependabot_
 
@@ -382,7 +384,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.7...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.8...HEAD
+[v0.8.8]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.8
 [v0.8.7]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.7
 [v0.8.6]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.6
 [v0.8.5]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.5
