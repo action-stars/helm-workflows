@@ -20,6 +20,7 @@
 - Update _[actions/attest-build-provenance](https://github.com/actions/attest-build-provenance)_ from `2.4.0` to `3.0.0`. ([#98](https://github.com/action-stars/helm-workflows/pull/98)) _@dependabot_
 - Update _[actions/setup-python](https://github.com/actions/setup-python)_ from `5.6.0` to `6.0.0`. ([#97](https://github.com/action-stars/helm-workflows/pull/97)) _@dependabot_
 - Update _sigstore/cosign-installer_ from `3.9.2` to `3.10.0`. ([#99](https://github.com/action-stars/helm-workflows/pull/99)) _@dependabot_
+- Update _docker/login-action_ from `3.5.0` to `3.6.0`. ([#100](https://github.com/action-stars/helm-workflows/pull/100)) _@dependabot_
 
 ## [v0.8.8] - 2025-09-03
 
