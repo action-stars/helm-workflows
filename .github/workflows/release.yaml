@@ -86,7 +86,7 @@ jobs:
           fetch-tags: true
 
       - name: Install YQ
-        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
         with:
           github_token: ${{ github.token }}
           owner: mikefarah
@@ -154,7 +154,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install YQ
-        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
         with:
           github_token: ${{ github.token }}
           owner: mikefarah
@@ -165,7 +165,7 @@ jobs:
           version: latest
 
       - name: Install MDQ
-        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
         if: inputs.release_notes
         with:
           github_token: ${{ github.token }}
@@ -177,7 +177,7 @@ jobs:
           version: latest
 
       - name: Install Artifact Hub CLI
-        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
         if: ${{ inputs.ah_lint }}
         with:
           github_token: ${{ github.token }}
@@ -310,7 +310,7 @@ jobs:
 
       - name: Login to OCI registry
         if: inputs.publish_oci
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ${{ inputs.oci_registry }}
           username: ${{ inputs.oci_username }}
@@ -322,7 +322,7 @@ jobs:
 
       - name: Install ORAS
         if: inputs.publish_oci
-        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
         with:
           github_token: ${{ github.token }}
           owner: oras-project
