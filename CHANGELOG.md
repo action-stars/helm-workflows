@@ -20,6 +20,11 @@
 - Update _[actions/attest-build-provenance](https://github.com/actions/attest-build-provenance)_ from `2.4.0` to `3.0.0`. ([#98](https://github.com/action-stars/helm-workflows/pull/98)) _@dependabot_
 - Update _[actions/setup-python](https://github.com/actions/setup-python)_ from `5.6.0` to `6.0.0`. ([#97](https://github.com/action-stars/helm-workflows/pull/97)) _@dependabot_
 - Update _sigstore/cosign-installer_ from `3.9.2` to `3.10.0`. ([#99](https://github.com/action-stars/helm-workflows/pull/99)) _@dependabot_
+- Update _the github-actions group with 4 updates in the / directory: [action-stars/generic-workflows](https://github.com/action-stars/generic-workflows), [action-stars/install-tool-_ from `-github-release](https://github.com/action-stars/install-` to `ol-from-github-release), [docker/login-action](https://github.com/docker/login-action) and [helm/kind-action](https://github.com/helm/kind-action)`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
+- Update _action-stars/generic-workflows_ from `0.7.1` to `0.7.2`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
+- Update _action-stars/install-tool-_ from `-github-release` from 0.2.5` to `0.2.6`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
+- Update _docker/login-action_ from `3.5.0` to `3.6.0`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
+- Update _helm/kind-action_ from `1.12.0` to `1.13.0`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
 
 ## [v0.8.8] - 2025-09-03
 
