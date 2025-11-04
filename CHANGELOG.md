@@ -26,6 +26,7 @@
 - Update _docker/login-action_ from `3.5.0` to `3.6.0`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
 - Update _helm/kind-action_ from `1.12.0` to `1.13.0`. ([#103](https://github.com/action-stars/helm-workflows/pull/103)) _@dependabot_
 - Update _[sigstore/cosign-installer](https://github.com/sigstore/cosign-installer)_ from `3.10.0` to `4.0.0`. ([#105](https://github.com/action-stars/helm-workflows/pull/105)) _@dependabot_
+- Update _action-stars/generic-workflows_ from `0.7.2` to `0.7.3`. ([#104](https://github.com/action-stars/helm-workflows/pull/104)) _@dependabot_
 
 ## [v0.8.8] - 2025-09-03
 
