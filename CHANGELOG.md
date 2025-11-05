@@ -15,6 +15,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _helm/chart-testing-action_ from `2.7.0` to `2.8.0`. ([#107](https://github.com/action-stars/helm-workflows/pull/107)) _@dependabot_
+
 ## [v0.8.9] - 2025-11-04
 
 ### Changed
