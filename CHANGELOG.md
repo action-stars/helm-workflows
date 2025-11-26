@@ -15,6 +15,8 @@
 
 ## [UNRELEASED]
 
+## [v0.8.11] - 2025-11-26
+
 ### Changed
 
 - Update _[actions/checkout](https://github.com/actions/checkout)_ from `5.0.0` to `6.0.0`. ([#109](https://github.com/action-stars/helm-workflows/pull/109)) _@dependabot_
@@ -420,7 +422,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.10...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.11...HEAD
+[v0.8.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.11
 [v0.8.10]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.10
 [v0.8.9]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.9
 [v0.8.8]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.8
