@@ -19,6 +19,9 @@
 
 - Update _[actions/checkout](https://github.com/actions/checkout)_ from `5.0.0` to `6.0.0`. ([#109](https://github.com/action-stars/helm-workflows/pull/109)) _@dependabot_
 - Update _actions/setup-python_ from `6.0.0` to `6.1.0`. ([#110](https://github.com/action-stars/helm-workflows/pull/110)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml_ from `0.7.3` to `0.7.4`. ([#111](https://github.com/action-stars/helm-workflows/pull/111)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/release.yaml_ from `0.7.3` to `0.7.4`. ([#111](https://github.com/action-stars/helm-workflows/pull/111)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/validate-gh-workflows.yaml_ from `0.7.3` to `0.7.4`. ([#111](https://github.com/action-stars/helm-workflows/pull/111)) _@dependabot_
 
 ## [v0.8.10] - 2025-11-05
 
