@@ -15,6 +15,11 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _actions/checkout_ from `6.0.0` to `6.0.1`. ([#113](https://github.com/action-stars/helm-workflows/pull/113)) _@dependabot_
+- Update _actions/attest-build-provenance_ from `3.0.0` to `3.1.0`. ([#113](https://github.com/action-stars/helm-workflows/pull/113)) _@dependabot_
+
 ## [v0.8.11] - 2025-11-26
 
 ### Changed
