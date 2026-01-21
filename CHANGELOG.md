@@ -15,10 +15,20 @@
 
 ## [UNRELEASED]
 
+## [v0.9.0] - 2026-01-21
+
+### Added
+
+- Add support for skipping specific Kubeconform schemas via the `kubeconform_skip` input variable. ([#114](https://github.com/action-stars/helm-workflows/pull/114)) _@stevehipwell_
+
 ### Changed
 
 - Update _actions/checkout_ from `6.0.0` to `6.0.1`. ([#113](https://github.com/action-stars/helm-workflows/pull/113)) _@dependabot_
 - Update _actions/attest-build-provenance_ from `3.0.0` to `3.1.0`. ([#113](https://github.com/action-stars/helm-workflows/pull/113)) _@dependabot_
+
+### Fixed
+
+- Fix missing support for `CustomResourceDefinition` schema in Kubeconform. ([#114](https://github.com/action-stars/helm-workflows/pull/114)) _@stevehipwell_
 
 ## [v0.8.11] - 2025-11-26
 
@@ -427,7 +437,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.8.11...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.9.0...HEAD
+[v0.9.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.9.0
 [v0.8.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.11
 [v0.8.10]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.10
 [v0.8.9]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.9

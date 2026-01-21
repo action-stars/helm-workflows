@@ -56,6 +56,7 @@ This GitHub Actions workflow is used to validate _Helm_ charts.
 |        helm_repos        | string  |  false   |            |               List of Helm repos to install; as a comma separated list in the format `<name>=<address>`.               |
 |       kubeconform        | boolean |  false   |   `true`   |                                           If the Kubeconform should be run.                                            |
 | kubeconform_k8s_versions | string  |  false   |            | List of Kubernetes versions to use for Kubeconform; as a comma separated list in the format `<major>.<minor>.<patch>`. |
+|     kubeconform_skip     | string  |  false   |            |                    List of Kubeconform schemas to skip; as a comma separated list of kinds or GVKs.                    |
 |      target_branch       | string  |  false   |  `"main"`  |                                               Target branch for charts.                                                |
 
 <!-- AUTO-DOC-INPUT:END -->
