@@ -15,6 +15,13 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _actions/checkout_ from `6.0.1` to `6.0.2`. ([#116](https://github.com/action-stars/helm-workflows/pull/116)) _@dependabot_
+- Update _docker/login-action_ from `3.6.0` to `3.7.0`. ([#116](https://github.com/action-stars/helm-workflows/pull/116)) _@dependabot_
+- Update _actions/attest-build-provenance_ from `3.1.0` to `3.2.0`. ([#116](https://github.com/action-stars/helm-workflows/pull/116)) _@dependabot_
+- Update _actions/setup-python_ from `6.1.0` to `6.2.0`. ([#116](https://github.com/action-stars/helm-workflows/pull/116)) _@dependabot_
+
 ## [v0.9.0] - 2026-01-21
 
 ### Added
