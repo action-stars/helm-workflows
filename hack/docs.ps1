@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$repository = "lexisnexis-iac/workflows"
+$repository = "action-stars/helm-workflows"
 $readmePath = "./README.md"
 
 # Find all relevant YAML files
@@ -11,10 +11,10 @@ foreach ($file in $workflowFiles) {
   $tmpReadme = New-TemporaryFile
 
   # Create initial content for the temporary README
-  "## Inputs`n## Outputs`n" | Out-File -FilePath $tmpReadme.FullName -Encoding UTF8 -NoNewline
+  "## Secrets`n`n## Inputs`n`n## Outputs`n" | Out-File -FilePath $tmpReadme.FullName -Encoding UTF8 -NoNewline
 
   # Generate documentation using auto-doc
-  & auto-doc --colMaxWords 100 --repository $repository --reusable --filename $file.FullName --output $tmpReadme.FullName
+  & auto-doc --colMaxWords 100 --repository $repository --reusable --reusableOutputColumns "Output" --reusableOutputColumns "Description" --filename $file.FullName --output $tmpReadme.FullName
 
   # Format the temporary README
   (Get-Content $tmpReadme.FullName) | ForEach-Object {

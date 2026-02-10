@@ -8,6 +8,16 @@
 This GitHub Actions workflow is used to release _Helm_ charts.
 
 <!-- MERGE:START:release - Do not remove or modify this section -->
+### Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+|    SECRET    | REQUIRED |      DESCRIPTION       |
+|--------------|----------|------------------------|
+| oci_password |  false   | OCI registry password. |
+
+<!-- AUTO-DOC-SECRETS:END -->
+
 ### Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
@@ -28,6 +38,7 @@ This GitHub Actions workflow is used to release _Helm_ charts.
 |        release_notes        | boolean |  false   |           `false`            |                  If the release notes should be created from a CHANGELOG.                  |
 
 <!-- AUTO-DOC-INPUT:END -->
+
 ### Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
@@ -40,6 +51,12 @@ No outputs.
 This GitHub Actions workflow is used to validate _Helm_ charts.
 
 <!-- MERGE:START:validate - Do not remove or modify this section -->
+### Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+No secrets.
+<!-- AUTO-DOC-SECRETS:END -->
+
 ### Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
@@ -60,6 +77,7 @@ This GitHub Actions workflow is used to validate _Helm_ charts.
 |      target_branch       | string  |  false   |  `"main"`  |                                               Target branch for charts.                                                |
 
 <!-- AUTO-DOC-INPUT:END -->
+
 ### Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
