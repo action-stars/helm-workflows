@@ -93,12 +93,14 @@ jobs:
           version: latest
 
       - name: Configure Helm repos
-        if: ${{ inputs.helm_repos }}
+        if: inputs.helm_repos
+        env:
+          INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
         run: |
           set -euo pipefail
 
-          repos="${{ inputs.helm_repos }}"
-          for repo in ${repos//,/ }
+          read -ra repos <<< "${INPUT_HELM_REPOS//,/ }"
+          for repo in "${repos[@]}"
           do
             helm repo add "${repo%=*}" "${repo#*=}"
           done
@@ -108,9 +110,13 @@ jobs:
 
       - name: Check for changes
         id: changes
+        env:
+          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
         run: |
           set -euo pipefail
-          changed="$(ct list-changed --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }})"
+          changed="$(ct list-changed --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}")"
           if [[ -n "${changed}" ]]
           then
             echo "changed=true" >> "${GITHUB_OUTPUT}"
@@ -122,7 +128,7 @@ jobs:
 
       - name: Install Helm Docs
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
+        if: inputs.helm_docs && steps.changes.outputs.changed == 'true'
         with:
           github_token: ${{ github.token }}
           owner: norwoodj
@@ -133,11 +139,14 @@ jobs:
           version: latest
 
       - name: Run Helm Docs check
-        if: ${{ inputs.helm_docs && steps.changes.outputs.changed == 'true' }}
+        if: inputs.helm_docs && steps.changes.outputs.changed == 'true'
+        env:
+          INPUT_HELM_DOCS_ARGS: ${{ inputs.helm_docs_args }}
         run: |
           set -euo pipefail
 
-          helm-docs ${{ inputs.helm_docs_args }}
+          read -ra args <<< "${INPUT_HELM_DOCS_ARGS}"
+          helm-docs "${args[@]}"
           if [[ -n "$(git status --porcelain --untracked-files=no)" ]]
           then
             echo "Documentation not up to date; please run helm-docs and commit changes!" >&2
@@ -146,7 +155,7 @@ jobs:
 
       - name: Install YQ
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
+        if: inputs.changelog && steps.changes.outputs.changed == 'true'
         with:
           github_token: ${{ github.token }}
           owner: mikefarah
@@ -158,7 +167,7 @@ jobs:
 
       - name: Install MDQ
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
+        if: inputs.changelog && steps.changes.outputs.changed == 'true'
         with:
           github_token: ${{ github.token }}
           owner: yshavit
@@ -169,15 +178,18 @@ jobs:
           version: latest
 
       - name: Run CHANGELOG check
-        if: ${{ inputs.changelog && steps.changes.outputs.changed == 'true' }}
+        if: inputs.changelog && steps.changes.outputs.changed == 'true'
+        env:
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_CHARTS: ${{ steps.changes.outputs.charts }}
         run: |
           set -euo pipefail
 
-          charts="${{ steps.changes.outputs.charts }}"
-          for chart in ${charts//,/ }
+          read -ra charts <<< "${INPUT_CHARTS//,/ }"
+          for chart in "${charts[@]}"
           do
-            chart_file_path="./${{ inputs.chart_dir }}/${chart}/Chart.yaml"
-            changelog_file_path="./${{ inputs.chart_dir }}/${chart}/CHANGELOG.md"
+            chart_file_path="./${INPUT_CHART_DIR}/${chart}/Chart.yaml"
+            changelog_file_path="./${INPUT_CHART_DIR}/${chart}/CHANGELOG.md"
             version="$(yq eval '.version' "${chart_file_path}")"
             entry="$(mdq --no-br --link-format inline "# v${version}" <"${changelog_file_path}" || true)"
             if [[ -z "${entry}" ]]
@@ -193,7 +205,7 @@ jobs:
             fixed="$(mdq --output plain "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
             security="$(mdq --output plain "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
 
-            changes_path="./${{ inputs.chart_dir }}/${chart}/changes.txt"
+            changes_path="./${INPUT_CHART_DIR}/${chart}/changes.txt"
             rm -f "${changes_path}"
 
             old_ifs="${IFS}"
@@ -237,7 +249,7 @@ jobs:
 
       - name: Install Artifact Hub CLI
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.ah_lint && steps.changes.outputs.changed == 'true' }}
+        if: inputs.ah_lint && steps.changes.outputs.changed == 'true'
         with:
           github_token: ${{ github.token }}
           owner: artifacthub
@@ -247,16 +259,29 @@ jobs:
           version: latest
 
       - name: Run Artifact Hub lint
-        if: ${{ inputs.ah_lint && steps.changes.outputs.changed == 'true' }}
+        if: inputs.ah_lint && steps.changes.outputs.changed == 'true'
         run: ah lint --kind helm || exit 1
 
       - name: Run chart-testing lint
-        if: ${{ steps.changes.outputs.changed == 'true' }}
-        run: ct lint --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }} --check-version-increment=false --chart-repos="${{ inputs.helm_repos }}"
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
+          INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
+        run: ct lint --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}" --check-version-increment=false --chart-repos="${INPUT_HELM_REPOS}"
+
+      - name: Cache Kubeconform schemas
+        id: kubeconform_cache
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
+        with:
+          key: kubeconform
+          path: ${{ runner.temp }}/kubeconform
 
       - name: Install Kubeconform
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.kubeconform && steps.changes.outputs.changed == 'true' }}
+        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
         with:
           github_token: ${{ github.token }}
           owner: yannh
@@ -266,34 +291,47 @@ jobs:
           version: latest
 
       - name: Run Kubeconform
-        if: ${{ inputs.kubeconform && steps.changes.outputs.changed == 'true' }}
+        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
+        env:
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_CHARTS: ${{ steps.changes.outputs.charts }}
+          INPUT_KUBECONFORM_SKIP: ${{ inputs.kubeconform_skip }}
+          INPUT_KUBECONFORM_K8S_VERSIONS: ${{ inputs.kubeconform_k8s_versions }}
+          INPUT_KUBECONFORM_CACHE: ${{ runner.temp }}/kubeconform
         run: |
           set -euo pipefail
 
-          charts="${{ steps.changes.outputs.charts }}"
-          for chart in ${charts//,/ }
+          read -ra charts <<< "${INPUT_CHARTS//,/ }"
+          for chart in "${charts[@]}"
           do
-            values="./${{ inputs.chart_dir }}/${chart}/ci/kubeconform.yaml"
+            values="./${INPUT_CHART_DIR}/${chart}/ci/kubeconform.yaml"
             if [[ ! -f "${values}" ]]
             then
-              values="./${{ inputs.chart_dir }}/${chart}/test-values.yaml"
+              values="./${INPUT_CHART_DIR}/${chart}/test-values.yaml"
               touch "${values}"
             fi
 
             k8s_version_stable="$(curl -sL https://dl.k8s.io/release/stable.txt | grep -Eo '[0-9]+\.[0-9]+').0"
-            k8s_versions_in="${{ inputs.kubeconform_k8s_versions }}"
-            k8s_versions="${k8s_versions_in:-$k8s_version_stable}"
-            for k8s_version in ${k8s_versions//,/ }
+            k8s_versions="${INPUT_KUBECONFORM_K8S_VERSIONS:-$k8s_version_stable}"
+
+            read -ra versions <<< "${k8s_versions//,/ }"
+            for version in "${versions[@]}"
             do
-              echo "Chart: ${chart}, K8s: ${k8s_version}"
-              helm template --kube-version "${k8s_version}" "./${{ inputs.chart_dir }}/${chart}" --values "${values}" | kubeconform --kubernetes-version "${k8s_version}" --schema-location default --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --schema-location 'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json' --skip "${{ inputs.kubeconform_skip }}" --strict --summary
+              echo "Chart: ${chart}, K8s: ${version}"
+              helm template --kube-version "${version}" "./${INPUT_CHART_DIR}/${chart}" --values "${values}" | kubeconform --kubernetes-version "${version}" --cache "${INPUT_KUBECONFORM_CACHE}" --schema-location default --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --schema-location 'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json' --skip "${INPUT_KUBECONFORM_SKIP}" --strict --summary
             done
           done
 
       - name: Create Kind cluster
-        if: ${{ steps.changes.outputs.changed == 'true' }}
+        if: steps.changes.outputs.changed == 'true'
         uses: helm/kind-action@92086f6be054225fa813e0a4b13787fc9088faab # v1.13.0
 
       - name: Run chart-testing install
-        if: ${{ steps.changes.outputs.changed == 'true' }}
-        run: ct install --target-branch=${{ inputs.target_branch }} --chart-dirs=${{ inputs.chart_dir }} --excluded-charts=${{ inputs.excluded_charts }} --helm-extra-args="${{ inputs.helm_extra_args }}" --chart-repos="${{ inputs.helm_repos }}"
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
+          INPUT_HELM_EXTRA_ARGS: ${{ inputs.helm_extra_args }}
+          INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
+        run: ct install --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}" --helm-extra-args="${INPUT_HELM_EXTRA_ARGS}" --chart-repos="${INPUT_HELM_REPOS}"

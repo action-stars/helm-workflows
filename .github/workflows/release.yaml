@@ -98,22 +98,23 @@ jobs:
 
       - name: Check for Helm charts to release
         id: charts
+        env:
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_RELEASE_NAME_VERSION_PREFIX: ${{ inputs.release_name_version_prefix }}
         run: |
           set -euo pipefail
 
-          release_name_version_prefix="${{ inputs.release_name_version_prefix }}"
-
           release_charts=""
 
-          for chart_dir in ./${{ inputs.chart_dir }}/*
+          for chart_dir in "./${INPUT_CHART_DIR}"/*
           do
             if [[ -d "${chart_dir}" ]]
             then
               chart="$(basename "${chart_dir}")"
               released_version="$(git tag -l --sort version:refname "${chart}-*" | tail -n 1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' || true)"
-              current_version="$(yq eval '.version' "./${{ inputs.chart_dir }}/${chart}/Chart.yaml")"
+              current_version="$(yq eval '.version' "./${INPUT_CHART_DIR}/${chart}/Chart.yaml")"
 
-              if [[ "${current_version}" != "${released_version}" ]] && [[ -z "$(git tag -l "${chart}-${release_name_version_prefix}${current_version}")" ]]
+              if [[ "${current_version}" != "${released_version}" ]] && [[ -z "$(git tag -l "${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${current_version}")" ]]
               then
                 echo "Chart: ${chart}, Released version: ${released_version}, Current version: ${current_version}"
                 release_charts="${release_charts}${chart},"
@@ -142,7 +143,7 @@ jobs:
       run:
         shell: bash
     needs: check
-    if: ${{ needs.check.outputs.release == 'true' }}
+    if: needs.check.outputs.release == 'true'
     strategy:
       max-parallel: 1
       matrix:
@@ -178,7 +179,7 @@ jobs:
 
       - name: Install Artifact Hub CLI
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: ${{ inputs.ah_lint }}
+        if: inputs.ah_lint
         with:
           github_token: ${{ github.token }}
           owner: artifacthub
@@ -193,12 +194,14 @@ jobs:
           version: latest
 
       - name: Configure Helm repos
-        if: ${{ inputs.helm_repos }}
+        if: inputs.helm_repos
+        env:
+          INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
         run: |
           set -euo pipefail
 
-          repos="${{ inputs.helm_repos }}"
-          for repo in ${repos//,/ }
+          read -ra repos <<< "${INPUT_HELM_REPOS//,/ }"
+          for repo in "${repos[@]}"
           do
             helm repo add "${repo%=*}" "${repo#*=}"
           done
@@ -216,9 +219,12 @@ jobs:
 
       - name: Get chart version
         id: chart_version
+        env:
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_CHART: ${{ matrix.chart }}
         run: |
           set -euo pipefail
-          echo "version=$(yq eval '.version' './${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml')" >> "${GITHUB_OUTPUT}"
+          echo "version=$(yq eval '.version' "./${INPUT_CHART_DIR}/${INPUT_CHART}/Chart.yaml")" >> "${GITHUB_OUTPUT}"
 
       - name: Get changelog entry
         uses: mindsers/changelog-reader-action@32aa5b4c155d76c94e4ec883a223c947b2f02656 # v2.2.3
@@ -230,6 +236,13 @@ jobs:
 
       - name: Package chart
         id: package
+        env:
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_CHART: ${{ matrix.chart }}
+          INPUT_CHART_VERSION: ${{ steps.chart_version.outputs.version }}
+          INPUT_RELEASE_NOTES: ${{ inputs.release_notes }}
+          INPUT_CHANGELOG: ${{ steps.changelog_reader.outputs.changes }}
+          INPUT_AH_LINT: ${{ inputs.ah_lint }}
         run: |
           set -euo pipefail
 
@@ -238,12 +251,9 @@ jobs:
 
           release_notes_file="RELEASE.md"
 
-          if [[ "${{ inputs.release_notes }}" == "true" ]]; then
-            release_notes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${release_notes_file}"
-
-            cat <<"EOF" > "${release_notes_path}"
-          ${{ steps.changelog_reader.outputs.changes }}
-          EOF
+          if [[ "${INPUT_RELEASE_NOTES}" == "true" ]]; then
+            release_notes_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/${release_notes_file}"
+            printf '%s\n' "${INPUT_CHANGELOG}" > "${release_notes_path}"
 
             added="$(mdq --output plain '# Added | -' <"${release_notes_path}" || true)"
             changed="$(mdq --output plain '# Changed | -' <"${release_notes_path}" || true)"
@@ -252,7 +262,7 @@ jobs:
             fixed="$(mdq --output plain '# Fixed | -' <"${release_notes_path}" || true)"
             security="$(mdq --output plain '# Security | -' <"${release_notes_path}" || true)"
 
-            changes_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/changes.txt"
+            changes_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/changes.txt"
             rm -f "${changes_path}"
 
             old_ifs="${IFS}"
@@ -285,28 +295,35 @@ jobs:
             IFS="${old_ifs}"
 
             if [[ -f "${changes_path}" ]]; then
-              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "./${{ inputs.chart_dir }}/${{ matrix.chart }}/Chart.yaml"
+              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "./${INPUT_CHART_DIR}/${INPUT_CHART_DIR}/Chart.yaml"
               rm -f "${changes_path}"
             fi
           fi
 
-          if [[ "${{ inputs.ah_lint }}" == "true" ]]; then
-            ah lint --kind helm --path "./${{ inputs.chart_dir }}" || exit 1
+          if [[ "${INPUT_AH_LINT}" == "true" ]]; then
+            ah lint --kind helm --path "./${INPUT_CHART_DIR}" || exit 1
           fi
 
-          cr package --package-path="${package_dir}" ./${{ inputs.chart_dir }}/${{ matrix.chart }}
+          cr package --package-path="${package_dir}" "./${INPUT_CHART_DIR}/${INPUT_CHART_DIR}"
 
-          echo "path=${package_dir}/${{ matrix.chart }}-${{ steps.chart_version.outputs.version }}.tgz" >> "${GITHUB_OUTPUT}"
+          echo "path=${package_dir}/${INPUT_CHART_DIR}-${INPUT_CHART_VERSION}.tgz" >> "${GITHUB_OUTPUT}"
           echo "release_notes_file=${release_notes_file}" >> "${GITHUB_OUTPUT}"
 
       - name: Create chart GH release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          INPUT_PACKAGE_PATH: ${{ steps.package.outputs.path }}
+          INPUT_RELEASE_NAME_VERSION_PREFIX: ${{ inputs.release_name_version_prefix }}
+          INPUT_RELEASE_NOTES_FILE: ${{ steps.package.outputs.release_notes_file }}
+          INPUT_RELEASE_AS_LATEST: ${{ inputs.release_as_latest }}
         run: |
           set -euo pipefail
 
-          package_dir="$(dirname ${{ steps.package.outputs.path }})"
-          release_name_template="{{ .Name }}-${{ inputs.release_name_version_prefix }}{{ .Version }}"
+          package_dir="$(dirname "${INPUT_PACKAGE_PATH}")"
+          release_name_template="{{ .Name }}-${INPUT_RELEASE_NAME_VERSION_PREFIX}{{ .Version }}"
 
-          cr upload --token=${{ github.token }} --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --commit=${{ github.sha }} --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file=${{ steps.package.outputs.release_notes_file }} --make-release-latest=${{ inputs.release_as_latest }}
+          cr upload --token="${GITHUB_TOKEN}" --owner="${GITHUB_REPOSITORY_OWNER}" --git-repo="${GITHUB_REPOSITORY_NAME}" --commit="${GITHUB_SHA}" --package-path="${package_dir}" --release-name-template="${release_name_template}" --release-notes-file="${INPUT_RELEASE_NOTES_FILE}" --make-release-latest="${INPUT_RELEASE_AS_LATEST}"
 
       - name: Login to OCI registry
         if: inputs.publish_oci
@@ -333,12 +350,18 @@ jobs:
       - name: Configure OCI repository
         id: oci
         if: inputs.publish_oci
+        env:
+          INPUT_OCI_REGISTRY: ${{ inputs.oci_registry }}
+          INPUT_OCI_REPOSITORY_PREFIX: ${{ inputs.oci_repository_prefix }}
+          INPUT_CHART: ${{ matrix.chart }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_ARTIFACT_HUB_CONFIG_FILE: ${{ inputs.artifact_hub_config_file }}
         run: |
           set -euo pipefail
 
-          oci_repository="${{ inputs.oci_registry }}/${{ inputs.oci_repository_prefix }}/${{ matrix.chart }}"
+          oci_repository="${INPUT_OCI_REGISTRY}/${INPUT_OCI_REPOSITORY_PREFIX}/${INPUT_CHART}"
 
-          ah_config_path="./${{ inputs.chart_dir }}/${{ matrix.chart }}/${{ inputs.artifact_hub_config_file }}"
+          ah_config_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/${INPUT_ARTIFACT_HUB_CONFIG_FILE}"
 
           if [[ -f "${ah_config_path}" ]]
           then
@@ -365,14 +388,22 @@ jobs:
       - name: Publish chart to OCI repository
         id: publish_oci
         if: inputs.publish_oci
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          INPUT_OCI_REGISTRY: ${{ inputs.oci_registry }}
+          INPUT_OCI_REPOSITORY: ${{ steps.oci.outputs.repository }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_CHART: ${{ matrix.chart }}
+          INPUT_CHART_VERSION: ${{ steps.chart_version.outputs.version }}
+          INPUT_PACKAGE_PATH: ${{ steps.package.outputs.path }}
         run: |
           set -euo pipefail
 
-          oci_repository="${{ steps.oci.outputs.repository }}"
-          oci_image="${oci_repository}:${{ steps.chart_version.outputs.version }}"
+          oci_repository="${INPUT_OCI_REPOSITORY}"
+          oci_image="${oci_repository}:${INPUT_CHART_VERSION}"
 
-          helm registry login --username ${{ github.actor }} --password ${{ github.token }} "${{ inputs.oci_registry }}"
-          helm push ${{ steps.package.outputs.path }} "oci://$(dirname "${oci_repository}")"
+          helm registry login --username "${GITHUB_ACTOR}" --password "${GITHUB_TOKEN}" "${INPUT_OCI_REGISTRY}"
+          helm push "${INPUT_PACKAGE_PATH}" "oci://$(dirname "${oci_repository}")"
 
           digest="$(crane digest "${oci_image}")"
           cosign sign --yes "${oci_image}@${digest}"
@@ -391,12 +422,16 @@ jobs:
 
       - name: Publish chart to GH Pages
         if: inputs.publish_gh_pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          INPUT_PACKAGE_PATH: ${{ steps.package.outputs.path }}
         run: |
           set -euo pipefail
 
           index_dir="./.cr-index"
           mkdir -p "${index_dir}"
 
-          package_dir="$(dirname ${{ steps.package.outputs.path }})"
+          package_dir="$(dirname "${INPUT_PACKAGE_PATH}")"
 
-          cr index --token=${{ github.token }} --push --owner=${{ github.repository_owner }} --git-repo=${{ github.event.repository.name }} --package-path="${package_dir}" --index-path="${index_dir}/index.yaml"
+          cr index --token="${GITHUB_TOKEN}" --push --owner="${GITHUB_REPOSITORY_OWNER}" --git-repo="${GITHUB_REPOSITORY_NAME}" --package-path="${package_dir}" --index-path="${index_dir}/index.yaml"
