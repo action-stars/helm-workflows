@@ -27,6 +27,7 @@
 - Update _actions/attest-build-provenance_ from `3.1.0` to `3.2.0`. ([#117](https://github.com/action-stars/helm-workflows/pull/117)) _@dependabot_
 - Update _actions/setup-python_ from `6.1.0` to `6.2.0`. ([#117](https://github.com/action-stars/helm-workflows/pull/117)) _@dependabot_
 - Use `env` for passing variables to steps. ([#118](https://github.com/action-stars/helm-workflows/pull/118)) _@stevehipwell_
+- Update _helm/kind-action_ from `1.13.0` to `1.14.0`. ([#119](https://github.com/action-stars/helm-workflows/pull/119)) _@dependabot_
 
 ## [v0.9.0] - 2026-01-21
 
