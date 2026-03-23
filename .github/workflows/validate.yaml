@@ -273,7 +273,7 @@ jobs:
 
       - name: Cache Kubeconform schemas
         id: kubeconform_cache
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
         with:
           key: kubeconform
@@ -324,7 +324,7 @@ jobs:
 
       - name: Create Kind cluster
         if: steps.changes.outputs.changed == 'true'
-        uses: helm/kind-action@92086f6be054225fa813e0a4b13787fc9088faab # v1.13.0
+        uses: helm/kind-action@ef37e7f390d99f746eb8b610417061a60e82a6cc # v1.14.0
 
       - name: Run chart-testing install
         if: steps.changes.outputs.changed == 'true'
