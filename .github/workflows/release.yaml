@@ -115,7 +115,7 @@ jobs:
               echo "::group::Chart: ${chart}"
 
               released_version="$(git tag -l --sort version:refname "${chart}-*" | grep -Eo "^${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${semver_regex}$" | tail -n 1 | grep -Eo "${semver_regex}$" || true)"
-              current_version="$(yq eval '.version' "./charts/${chart}/Chart.yaml")"
+              current_version="$(yq eval '.version' "./${INPUT_CHART_DIR}/${chart}/Chart.yaml")"
 
               echo "Released version: ${released_version}"
               echo "Current version: ${current_version}"
@@ -301,18 +301,18 @@ jobs:
             IFS="${old_ifs}"
 
             if [[ -f "${changes_path}" ]]; then
-              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "./${INPUT_CHART_DIR}/${INPUT_CHART_DIR}/Chart.yaml"
+              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "./${INPUT_CHART_DIR}/${INPUT_CHART}/Chart.yaml"
               rm -f "${changes_path}"
             fi
           fi
 
           if [[ "${INPUT_AH_LINT}" == "true" ]]; then
-            ah lint --kind helm --path "./${INPUT_CHART_DIR}" || exit 1
+            ah lint --kind helm --path "./${INPUT_CHART_DIR}/${INPUT_CHART}" || exit 1
           fi
 
-          cr package --package-path="${package_dir}" "./${INPUT_CHART_DIR}/${INPUT_CHART_DIR}"
+          cr package --package-path="${package_dir}" "./${INPUT_CHART_DIR}/${INPUT_CHART}"
 
-          echo "path=${package_dir}/${INPUT_CHART_DIR}-${INPUT_CHART_VERSION}.tgz" >> "${GITHUB_OUTPUT}"
+          echo "path=${package_dir}/${INPUT_CHART}-${INPUT_CHART_VERSION}.tgz" >> "${GITHUB_OUTPUT}"
           echo "release_notes_file=${release_notes_file}" >> "${GITHUB_OUTPUT}"
 
       - name: Create chart GH release
