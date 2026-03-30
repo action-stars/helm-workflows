@@ -7,6 +7,16 @@
 
 This GitHub Actions workflow is used to release _Helm_ charts.
 
+### Permissions
+
+| PERMISSION | SCOPE |
+|------------|-------|
+| artifact-metadata | read |
+| attestations | write |
+| contents | write |
+| id-token | write |
+| packages | write |
+
 <!-- MERGE:START:release - Do not remove or modify this section -->
 ### Secrets
 
@@ -49,6 +59,14 @@ No outputs.
 ## Validate Helm Charts
 
 This GitHub Actions workflow is used to validate _Helm_ charts.
+
+### Permissions
+
+| PERMISSION | SCOPE |
+|------------|-------|
+| contents | write |
+| id-token | write |
+| pull-requests | write |
 
 <!-- MERGE:START:validate - Do not remove or modify this section -->
 ### Secrets

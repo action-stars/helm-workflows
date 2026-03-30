@@ -14,6 +14,14 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Change validate workflow to use a matrix strategy for running the lint and kubeconform checks per chart. ([#123](https://github.com/action-stars/helm-workflows/pull/123)) _@stevehipwell_
+
+### Fixed
+
+- Fix required permissions for release to include missing `artifact-metadata` write permission. ([#123](https://github.com/action-stars/helm-workflows/pull/123)) _@stevehipwell_
+
 ## [v0.10.0] - 2026-03-30
 
 ### Added
