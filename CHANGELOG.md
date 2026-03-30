@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.10.0] - 2026-03-30
+
 ### Added
 
 - Add caching for Kubeconform schemas to improve performance. ([#118](https://github.com/action-stars/helm-workflows/pull/118)) _@stevehipwell_
@@ -456,7 +458,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.9.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.10.0...HEAD
+[v0.10.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.10.0
 [v0.9.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.9.0
 [v0.8.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.11
 [v0.8.10]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.10
