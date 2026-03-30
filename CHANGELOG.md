@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.11.0] - 2026-03-30
+
 ### Changed
 
 - Change validate workflow to use a matrix strategy for running the lint and kubeconform checks per chart. ([#123](https://github.com/action-stars/helm-workflows/pull/123)) _@stevehipwell_
@@ -466,7 +468,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.10.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.11.0...HEAD
+[v0.11.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.11.0
 [v0.10.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.10.0
 [v0.9.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.9.0
 [v0.8.11]: https://github.com/action-stars/helm-workflows/releases/tag/v0.8.11
