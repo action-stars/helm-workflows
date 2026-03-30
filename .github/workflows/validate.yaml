@@ -65,6 +65,57 @@ on:
         default: ""
 
 jobs:
+  check:
+    name: Check releasable charts
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      changes: ${{ steps.changes.outputs.changes }}
+      matrix: ${{ steps.changes.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          token: ${{ github.token }}
+          python-version: "3.x"
+
+      - name: Install chart-testing
+        uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f # v2.8.0
+
+      - name: Check for changes
+        id: changes
+        env:
+          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
+          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
+        run: |
+          set -euo pipefail
+
+          changes="false"
+          results="$(ct list-changed --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}")"
+
+          readarray -t changed_chart_paths <<< "${results}"
+
+          charts=()
+          for chart in "${changed_chart_paths[@]}"; do
+            if [[ -n "${chart}" ]]; then
+              charts+=("${chart##*/}")
+              changes="true"
+            fi
+          done
+
+          {
+            echo "changes=${changes}"
+            echo "matrix=$(jq --null-input --raw-output --compact-output --arg charts "${charts[*]}" '$charts | split(" ")' || true)"
+          } >> "${GITHUB_OUTPUT}"
+
   validate:
     name: Validate Helm charts
     runs-on: ubuntu-latest
@@ -75,6 +126,11 @@ jobs:
     defaults:
       run:
         shell: bash
+    needs: check
+    if: needs.check.outputs.changes == 'true'
+    strategy:
+      matrix:
+        chart: ${{ fromJson(needs.check.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -100,35 +156,16 @@ jobs:
           set -euo pipefail
 
           read -ra repos <<< "${INPUT_HELM_REPOS//,/ }"
-          for repo in "${repos[@]}"
-          do
+          for repo in "${repos[@]}"; do
             helm repo add "${repo%=*}" "${repo#*=}"
           done
 
       - name: Install chart-testing
         uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f # v2.8.0
 
-      - name: Check for changes
-        id: changes
-        env:
-          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
-          INPUT_CHART_DIR: ${{ inputs.chart_dir }}
-          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
-        run: |
-          set -euo pipefail
-          changed="$(ct list-changed --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}")"
-          if [[ -n "${changed}" ]]
-          then
-            echo "changed=true" >> "${GITHUB_OUTPUT}"
-            echo "charts=$(echo "${changed}" | tr '\n' ',' | rev | cut -c 2- | rev | jq -Rrc '[split(",") | .[] | split("/") | .[1]] | join(",")')" >> "${GITHUB_OUTPUT}"
-          else
-            echo "changed=false" >> "${GITHUB_OUTPUT}"
-            echo "charts=" >> "${GITHUB_OUTPUT}"
-          fi
-
       - name: Install Helm Docs
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: inputs.helm_docs && steps.changes.outputs.changed == 'true'
+        if: inputs.helm_docs
         with:
           github_token: ${{ github.token }}
           owner: norwoodj
@@ -139,7 +176,7 @@ jobs:
           version: latest
 
       - name: Run Helm Docs check
-        if: inputs.helm_docs && steps.changes.outputs.changed == 'true'
+        if: inputs.helm_docs
         env:
           INPUT_HELM_DOCS_ARGS: ${{ inputs.helm_docs_args }}
         run: |
@@ -147,15 +184,14 @@ jobs:
 
           read -ra args <<< "${INPUT_HELM_DOCS_ARGS}"
           helm-docs "${args[@]}"
-          if [[ -n "$(git status --porcelain --untracked-files=no)" ]]
-          then
-            echo "Documentation not up to date; please run helm-docs and commit changes!" >&2
+          if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
+            echo "::error::Documentation not up to date; please run helm-docs and commit changes!"
             exit 1
           fi
 
       - name: Install YQ
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: inputs.changelog && steps.changes.outputs.changed == 'true'
+        if: inputs.changelog
         with:
           github_token: ${{ github.token }}
           owner: mikefarah
@@ -167,7 +203,7 @@ jobs:
 
       - name: Install MDQ
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: inputs.changelog && steps.changes.outputs.changed == 'true'
+        if: inputs.changelog
         with:
           github_token: ${{ github.token }}
           owner: yshavit
@@ -178,78 +214,74 @@ jobs:
           version: latest
 
       - name: Run CHANGELOG check
-        if: inputs.changelog && steps.changes.outputs.changed == 'true'
+        if: inputs.changelog
         env:
           INPUT_CHART_DIR: ${{ inputs.chart_dir }}
-          INPUT_CHARTS: ${{ steps.changes.outputs.charts }}
+          INPUT_CHART: ${{ matrix.chart }}
         run: |
           set -euo pipefail
 
-          read -ra charts <<< "${INPUT_CHARTS//,/ }"
-          for chart in "${charts[@]}"
-          do
-            chart_file_path="./${INPUT_CHART_DIR}/${chart}/Chart.yaml"
-            changelog_file_path="./${INPUT_CHART_DIR}/${chart}/CHANGELOG.md"
-            version="$(yq eval '.version' "${chart_file_path}")"
-            entry="$(mdq --no-br --link-format inline "# v${version}" <"${changelog_file_path}" || true)"
-            if [[ -z "${entry}" ]]
-            then
-              echo "No CHANGELOG entry for ${chart} version ${version}!" >&2
-              exit 1
-            fi
+          chart_file_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/Chart.yaml"
+          changelog_file_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/CHANGELOG.md"
+          version="$(yq eval '.version' "${chart_file_path}")"
+          entry="$(mdq --no-br --link-format inline "# v${version}" <"${changelog_file_path}" || true)"
+          if [[ -z "${entry}" ]]
+          then
+            echo "::error::No CHANGELOG entry for ${INPUT_CHART} version ${version}!"
+            exit 1
+          fi
 
-            added="$(mdq --output plain "# v${version} | # Added | -" <"${changelog_file_path}" || true)"
-            changed="$(mdq --output plain "# v${version} | # Changed | -" <"${changelog_file_path}" || true)"
-            deprecated="$(mdq --output plain "# v${version} | # Deprecated | -" <"${changelog_file_path}" || true)"
-            removed="$(mdq --output plain "# v${version} | # Removed | -" <"${changelog_file_path}" || true)"
-            fixed="$(mdq --output plain "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
-            security="$(mdq --output plain "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
+          added="$(mdq --output plain "# v${version} | # Added | -" <"${changelog_file_path}" || true)"
+          changed="$(mdq --output plain "# v${version} | # Changed | -" <"${changelog_file_path}" || true)"
+          deprecated="$(mdq --output plain "# v${version} | # Deprecated | -" <"${changelog_file_path}" || true)"
+          removed="$(mdq --output plain "# v${version} | # Removed | -" <"${changelog_file_path}" || true)"
+          fixed="$(mdq --output plain "# v${version} | # Fixed | -" <"${changelog_file_path}" || true)"
+          security="$(mdq --output plain "# v${version} | # Security | -" <"${changelog_file_path}" || true)"
 
-            changes_path="./${INPUT_CHART_DIR}/${chart}/changes.txt"
-            rm -f "${changes_path}"
+          changes_path="./${INPUT_CHART_DIR}/${INPUT_CHART}/changes.txt"
+          rm -f "${changes_path}"
 
-            old_ifs="${IFS}"
-            IFS=$'\n'
+          old_ifs="${IFS}"
+          IFS=$'\n'
 
-            for item in ${added}; do
-              printf -- '- kind: added\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            for item in ${changed}; do
-              printf -- '- kind: changed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            for item in ${deprecated}; do
-              printf -- '- kind: deprecated\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            for item in ${removed}; do
-              printf -- '- kind: removed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            for item in ${fixed}; do
-              printf -- '- kind: fixed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            for item in ${security}; do
-              printf -- '- kind: security\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
-            done
-
-            IFS="${old_ifs}"
-
-            if [[ -f "${changes_path}" ]]; then
-              echo "::group::Changes"
-              cat "${changes_path}"
-              echo "::endgroup::"
-
-              changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "${chart_file_path}"
-              rm -f "${changes_path}"
-            fi
+          for item in ${added}; do
+            printf -- '- kind: added\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
           done
+
+          for item in ${changed}; do
+            printf -- '- kind: changed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
+          done
+
+          for item in ${deprecated}; do
+            printf -- '- kind: deprecated\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
+          done
+
+          for item in ${removed}; do
+            printf -- '- kind: removed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
+          done
+
+          for item in ${fixed}; do
+            printf -- '- kind: fixed\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
+          done
+
+          for item in ${security}; do
+            printf -- '- kind: security\n  description: "%s"\n' "${item%.*}." >> "${changes_path}"
+          done
+
+          IFS="${old_ifs}"
+
+          if [[ -f "${changes_path}" ]]; then
+            echo "::group::Changes"
+            cat "${changes_path}"
+            echo "::endgroup::"
+
+            changes="$(cat "${changes_path}")" yq eval --inplace '.annotations["artifacthub.io/changes"] |= strenv(changes)' "${chart_file_path}"
+            rm -f "${changes_path}"
+          fi
 
       - name: Install Artifact Hub CLI
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: inputs.ah_lint && steps.changes.outputs.changed == 'true'
+        if: inputs.ah_lint
         with:
           github_token: ${{ github.token }}
           owner: artifacthub
@@ -259,29 +291,28 @@ jobs:
           version: latest
 
       - name: Run Artifact Hub lint
-        if: inputs.ah_lint && steps.changes.outputs.changed == 'true'
+        if: inputs.ah_lint
         run: ah lint --kind helm || exit 1
 
       - name: Run chart-testing lint
-        if: steps.changes.outputs.changed == 'true'
         env:
           INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
           INPUT_CHART_DIR: ${{ inputs.chart_dir }}
-          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
+          INPUT_CHART: ${{ matrix.chart }}
           INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
-        run: ct lint --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}" --check-version-increment=false --chart-repos="${INPUT_HELM_REPOS}"
+        run: ct lint --target-branch="${INPUT_TARGET_BRANCH}" --charts="./${INPUT_CHART_DIR}/${INPUT_CHART}" --check-version-increment=false --chart-repos="${INPUT_HELM_REPOS}"
 
       - name: Cache Kubeconform schemas
         id: kubeconform_cache
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
-        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
+        if: inputs.kubeconform
         with:
           key: kubeconform
           path: ${{ runner.temp }}/kubeconform
 
       - name: Install Kubeconform
         uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
-        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
+        if: inputs.kubeconform
         with:
           github_token: ${{ github.token }}
           owner: yannh
@@ -291,10 +322,10 @@ jobs:
           version: latest
 
       - name: Run Kubeconform
-        if: inputs.kubeconform && steps.changes.outputs.changed == 'true'
+        if: inputs.kubeconform
         env:
           INPUT_CHART_DIR: ${{ inputs.chart_dir }}
-          INPUT_CHARTS: ${{ steps.changes.outputs.charts }}
+          INPUT_CHART: ${{ matrix.chart }}
           INPUT_KUBECONFORM_SKIP: ${{ inputs.kubeconform_skip }}
           INPUT_KUBECONFORM_K8S_VERSIONS: ${{ inputs.kubeconform_k8s_versions }}
           INPUT_KUBECONFORM_CACHE: ${{ runner.temp }}/kubeconform
@@ -303,37 +334,32 @@ jobs:
 
           mkdir -p "${INPUT_KUBECONFORM_CACHE}"
 
-          read -ra charts <<< "${INPUT_CHARTS//,/ }"
-          for chart in "${charts[@]}"
-          do
-            values="./${INPUT_CHART_DIR}/${chart}/ci/kubeconform.yaml"
-            if [[ ! -f "${values}" ]]
-            then
-              values="./${INPUT_CHART_DIR}/${chart}/test-values.yaml"
-              touch "${values}"
-            fi
+          values="./${INPUT_CHART_DIR}/${INPUT_CHART}/ci/kubeconform.yaml"
+          if [[ ! -f "${values}" ]]; then
+            values="./${INPUT_CHART_DIR}/${INPUT_CHART}/test-values.yaml"
+            touch "${values}"
+          fi
 
-            k8s_version_stable="$(curl -sL https://dl.k8s.io/release/stable.txt | grep -Eo '[0-9]+\.[0-9]+').0"
-            k8s_versions="${INPUT_KUBECONFORM_K8S_VERSIONS:-$k8s_version_stable}"
+          k8s_version_stable="$(curl -sL https://dl.k8s.io/release/stable.txt | grep -Eo '[0-9]+\.[0-9]+').0"
+          k8s_versions="${INPUT_KUBECONFORM_K8S_VERSIONS:-$k8s_version_stable}"
 
-            read -ra versions <<< "${k8s_versions//,/ }"
-            for version in "${versions[@]}"
-            do
-              echo "Chart: ${chart}, K8s: ${version}"
-              helm template --kube-version "${version}" "./${INPUT_CHART_DIR}/${chart}" --values "${values}" | kubeconform --kubernetes-version "${version}" --cache "${INPUT_KUBECONFORM_CACHE}" --schema-location default --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --schema-location 'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json' --skip "${INPUT_KUBECONFORM_SKIP}" --strict --summary
-            done
+          read -ra versions <<< "${k8s_versions//,/ }"
+          for version in "${versions[@]}"; do
+            echo "::group::K8s ${version}"
+
+            helm template --kube-version "${version}" "./${INPUT_CHART_DIR}/${INPUT_CHART}" --values "${values}" | kubeconform --kubernetes-version "${version}" --cache "${INPUT_KUBECONFORM_CACHE}" --schema-location default --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --schema-location 'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json' --skip "${INPUT_KUBECONFORM_SKIP}" --strict --summary
+
+            echo "::endgroup::"
           done
 
       - name: Create Kind cluster
-        if: steps.changes.outputs.changed == 'true'
         uses: helm/kind-action@ef37e7f390d99f746eb8b610417061a60e82a6cc # v1.14.0
 
       - name: Run chart-testing install
-        if: steps.changes.outputs.changed == 'true'
         env:
           INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
           INPUT_CHART_DIR: ${{ inputs.chart_dir }}
-          INPUT_EXCLUDED_CHARTS: ${{ inputs.excluded_charts }}
+          INPUT_CHART: ${{ matrix.chart }}
           INPUT_HELM_EXTRA_ARGS: ${{ inputs.helm_extra_args }}
           INPUT_HELM_REPOS: ${{ inputs.helm_repos }}
-        run: ct install --target-branch="${INPUT_TARGET_BRANCH}" --chart-dirs="${INPUT_CHART_DIR}" --excluded-charts="${INPUT_EXCLUDED_CHARTS}" --helm-extra-args="${INPUT_HELM_EXTRA_ARGS}" --chart-repos="${INPUT_HELM_REPOS}"
+        run: ct install --target-branch="${INPUT_TARGET_BRANCH}" --charts="${INPUT_CHART_DIR}/${INPUT_CHART}" --helm-extra-args="${INPUT_HELM_EXTRA_ARGS}" --chart-repos="${INPUT_HELM_REPOS}"
