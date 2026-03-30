@@ -104,32 +104,38 @@ jobs:
         run: |
           set -euo pipefail
 
-          release_charts=""
+          semver_regex='[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+\.[0-9]+)?'
 
-          for chart_dir in "./${INPUT_CHART_DIR}"/*
-          do
-            if [[ -d "${chart_dir}" ]]
-            then
+          release="false"
+          release_charts=()
+
+          for chart_dir in "./${INPUT_CHART_DIR}"/*; do
+            if [[ -d "${chart_dir}" ]]; then
               chart="$(basename "${chart_dir}")"
-              released_version="$(git tag -l --sort version:refname "${chart}-*" | tail -n 1 | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' || true)"
-              current_version="$(yq eval '.version' "./${INPUT_CHART_DIR}/${chart}/Chart.yaml")"
+              echo "::group::Chart: ${chart}"
 
-              if [[ "${current_version}" != "${released_version}" ]] && [[ -z "$(git tag -l "${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${current_version}")" ]]
-              then
-                echo "Chart: ${chart}, Released version: ${released_version}, Current version: ${current_version}"
-                release_charts="${release_charts}${chart},"
+              released_version="$(git tag -l --sort version:refname "${chart}-*" | grep -Eo "^${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${semver_regex}$" | tail -n 1 | grep -Eo "${semver_regex}$" || true)"
+              current_version="$(yq eval '.version' "./charts/${chart}/Chart.yaml")"
+
+              echo "Released version: ${released_version}"
+              echo "Current version: ${current_version}"
+
+              if [[ "${current_version}" != "${released_version}" ]] && [[ -z "$(git tag -l "^${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${current_version}" || true)" ]]; then
+                echo "Release: true"
+                release_charts+=("${chart}")
+                release="true"
+              else
+                echo "Release: false"
               fi
+
+              echo "::endgroup::"
             fi
           done
 
-          if [[ -n "${release_charts}" ]]
-          then
-            echo "release=true" >> "${GITHUB_OUTPUT}"
-          else
-            echo "release=false" >> "${GITHUB_OUTPUT}"
-          fi
-
-          echo "matrix=$(jq -Rrc 'split(",")' <<< "${release_charts%,}")" >> "${GITHUB_OUTPUT}"
+          {
+            echo "release=${release}"
+            echo "matrix=$(jq --null-input --raw-output --compact-output --arg charts "${release_charts[*]}" '$charts | split(" ")' || true)"
+          } >> "${GITHUB_OUTPUT}"
 
   release:
     name: Release Helm charts

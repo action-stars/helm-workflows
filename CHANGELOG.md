@@ -1,6 +1,5 @@
 # Action Stars Helm Workflows for GitHub Actions Changelog
 
-<!-- markdownlint-disable-next-line MD052 -->
 > [!NOTE]
 > All notable changes to this project will be documented in this file; the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -30,6 +29,10 @@
 - Update _sigstore/cosign-installer_ from `4.0.0` to `4.1.0`. ([#121](https://github.com/action-stars/helm-workflows/pull/121)) _@dependabot_
 - Update _actions/cache_ from `5.0.3` to `5.0.4`. ([#121](https://github.com/action-stars/helm-workflows/pull/121)) _@dependabot_
 - Update _helm/kind-action_ from `1.13.0` to `1.14.0`. ([#121](https://github.com/action-stars/helm-workflows/pull/121)) _@dependabot_
+
+### Fixed
+
+- Fix handling of charts whose name is the prefix of another chart in the same repository. ([#122](https://github.com/action-stars/helm-workflows/pull/122)) _@stevehipwell_
 
 ## [v0.9.0] - 2026-01-21
 

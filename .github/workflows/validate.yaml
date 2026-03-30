@@ -301,6 +301,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          mkdir -p "${INPUT_KUBECONFORM_CACHE}"
+
           read -ra charts <<< "${INPUT_CHARTS//,/ }"
           for chart in "${charts[@]}"
           do
