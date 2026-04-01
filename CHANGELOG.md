@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _sigstore/cosign-installer_ from `4.1.0` to `4.1.1`. ([#124](https://github.com/action-stars/helm-workflows/pull/124)) _@dependabot_
+
 ## [v0.11.0] - 2026-03-30
 
 ### Changed
