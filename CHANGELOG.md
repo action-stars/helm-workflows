@@ -20,6 +20,9 @@
 - Update _[actions/attest-build-provenance](https://github.com/actions/attest-build-provenance)_ from `3.2.0` to `4.1.0`. ([#125](https://github.com/action-stars/helm-workflows/pull/125)) _@dependabot_
 - Update _[docker/login-action](https://github.com/docker/login-action)_ from `3.7.0` to `4.0.0`. ([#126](https://github.com/action-stars/helm-workflows/pull/126)) _@dependabot_
 - Update _[azure/setup-helm](https://github.com/azure/setup-helm)_ from `4.3.1` to `5.0.0`. ([#127](https://github.com/action-stars/helm-workflows/pull/127)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/release.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/validate-gh-workflows.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
 
 ## [v0.11.0] - 2026-03-30
 
