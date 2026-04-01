@@ -18,6 +18,7 @@
 
 - Update _sigstore/cosign-installer_ from `4.1.0` to `4.1.1`. ([#124](https://github.com/action-stars/helm-workflows/pull/124)) _@dependabot_
 - Update _[actions/attest-build-provenance](https://github.com/actions/attest-build-provenance)_ from `3.2.0` to `4.1.0`. ([#125](https://github.com/action-stars/helm-workflows/pull/125)) _@dependabot_
+- Update _[docker/login-action](https://github.com/docker/login-action)_ from `3.7.0` to `4.0.0`. ([#126](https://github.com/action-stars/helm-workflows/pull/126)) _@dependabot_
 
 ## [v0.11.0] - 2026-03-30
 
