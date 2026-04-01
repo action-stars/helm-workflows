@@ -11,7 +11,7 @@ This GitHub Actions workflow is used to release _Helm_ charts.
 
 | PERMISSION | SCOPE |
 |------------|-------|
-| artifact-metadata | read |
+| artifact-metadata | write |
 | attestations | write |
 | contents | write |
 | id-token | write |
