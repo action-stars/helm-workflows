@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.12.0] - 2026-04-01
+
 ### Changed
 
 - Update _sigstore/cosign-installer_ from `4.1.0` to `4.1.1`. ([#124](https://github.com/action-stars/helm-workflows/pull/124)) _@dependabot_
@@ -23,6 +25,7 @@
 - Update _action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
 - Update _action-stars/generic-workflows/.github/workflows/release.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
 - Update _action-stars/generic-workflows/.github/workflows/validate-gh-workflows.yaml_ from `0.8.0` to `0.9.0`. ([#129](https://github.com/action-stars/helm-workflows/pull/129)) _@dependabot_
+- Switch _actions/attest-build-provenance_ to _actions/attest_. ([#130](https://github.com/action-stars/helm-workflows/pull/130)) _@stevehipwell_
 
 ## [v0.11.0] - 2026-03-30
 
@@ -478,7 +481,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.11.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.12.0...HEAD
+[v0.12.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.12.0
 [v0.11.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.11.0
 [v0.10.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.10.0
 [v0.9.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.9.0
