@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _docker/login-action_ from `4.0.0` to `4.1.0`. ([#131](https://github.com/action-stars/helm-workflows/pull/131)) _@dependabot_
+
 ## [v0.12.0] - 2026-04-01
 
 ### Changed
