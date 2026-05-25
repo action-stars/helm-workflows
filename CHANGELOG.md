@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _mindsers/changelog-reader-action_ from `2.2.3` to `2.4.0`. ([#134](https://github.com/action-stars/helm-workflows/pull/134)) _@dependabot_
+- Update _docker/login-action_ from `4.0.0` to `4.2.0`. ([#134](https://github.com/action-stars/helm-workflows/pull/134)) _@dependabot_
+- Update _sigstore/cosign-installer_ from `4.1.1` to `4.1.2`. ([#134](https://github.com/action-stars/helm-workflows/pull/134)) _@dependabot_
+- Update _actions/cache_ from `5.0.4` to `5.0.5`. ([#134](https://github.com/action-stars/helm-workflows/pull/134)) _@dependabot_
+
 ## [v0.12.0] - 2026-04-01
 
 ### Changed
