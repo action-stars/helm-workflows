@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.13.0] - 2026-06-12
+
+### Added
+
+- Use [action-stars/ghactl-action](https://github.com/action-stars/ghactl-action) ([`ghactl`](https://github.com/action-stars/ghactl)) for installing tools from GitHub releases. ([#137](https://github.com/action-stars/helm-workflows/pull/137)) _@stevehipwell_
+
 ### Changed
 
 - Update _actions/checkout_ from `6.0.2` to `6.0.3`. ([#136](https://github.com/action-stars/helm-workflows/pull/136)) _@dependabot_
@@ -22,6 +28,10 @@
 - Update _imjasonh/setup-crane_ from `0.5` to `0.6`. ([#136](https://github.com/action-stars/helm-workflows/pull/136)) _@dependabot_
 - Update _sigstore/cosign-installer_ from `4.1.1` to `4.1.2`. ([#136](https://github.com/action-stars/helm-workflows/pull/136)) _@dependabot_
 - Update _actions/cache_ from `5.0.4` to `5.0.5`. ([#136](https://github.com/action-stars/helm-workflows/pull/136)) _@dependabot_
+
+### Removed
+
+- Remove usage of _action-stars/install-tool-from-github-release_. ([#137](https://github.com/action-stars/helm-workflows/pull/137)) _@stevehipwell_
 
 ## [v0.12.0] - 2026-04-01
 
@@ -490,7 +500,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.12.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.13.0...HEAD
+[v0.13.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.13.0
 [v0.12.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.12.0
 [v0.11.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.11.0
 [v0.10.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.10.0
