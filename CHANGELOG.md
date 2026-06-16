@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.13.1] - 2026-06-16
+
+### Fixed
+
+- Fix missing token from `ghactl` install step in release and validate workflows. ([#138](https://github.com/action-stars/helm-workflows/pull/138)) @stevehipwell
+
 ## [v0.13.0] - 2026-06-12
 
 ### Added
@@ -500,7 +506,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.13.0...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.13.1...HEAD
+[v0.13.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.13.1
 [v0.13.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.13.0
 [v0.12.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.12.0
 [v0.11.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.11.0
