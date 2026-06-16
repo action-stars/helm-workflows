@@ -92,6 +92,8 @@ jobs:
           version: latest
 
       - name: Install tools
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
@@ -169,6 +171,8 @@ jobs:
           version: latest
 
       - name: Install tools
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
