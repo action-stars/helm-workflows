@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _[actions/checkout](https://github.com/actions/checkout)_ from `6.0.3` to `7.0.0`. ([#139](https://github.com/action-stars/helm-workflows/pull/139)) _@dependabot_
+
 ## [v0.13.1] - 2026-06-16
 
 ### Fixed
