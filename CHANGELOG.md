@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _azure/setup-helm_ from `5.0.0` to `5.0.1`. ([#140](https://github.com/action-stars/helm-workflows/pull/140)) _@dependabot_
+- Update _imjasonh/setup-crane_ from `0.6` to `0.7`. ([#140](https://github.com/action-stars/helm-workflows/pull/140)) _@dependabot_
+- Update _actions/attest_ from `4.1.0` to `4.1.1`. ([#140](https://github.com/action-stars/helm-workflows/pull/140)) _@dependabot_
+- Update _actions/setup-python_ from `6.2.0` to `6.3.0`. ([#140](https://github.com/action-stars/helm-workflows/pull/140)) _@dependabot_
+
 ## [v0.13.1] - 2026-06-16
 
 ### Fixed
