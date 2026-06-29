@@ -182,7 +182,7 @@ jobs:
           ghactl tool install --owner oras-project --repo oras --version latest
 
       - name: Install Helm
-        uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2 # v5.0.0
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
           version: latest
 
@@ -328,7 +328,7 @@ jobs:
 
       - name: Install Crane
         if: inputs.publish_oci
-        uses: imjasonh/setup-crane@59c71e96a00b28651f10369ba3359a6d730740a0 # v0.6
+        uses: imjasonh/setup-crane@feee3b6bb0d4c68370f256a4502498c9227e5c6b # v0.7
 
       - name: Configure OCI repository
         id: oci
@@ -397,7 +397,7 @@ jobs:
           } >> "${GITHUB_OUTPUT}"
 
       - name: Attest OCI image
-        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
+        uses: actions/attest@a1948c3f048ba23858d222213b7c278aabede763 # v4.1.1
         with:
           subject-name: ${{ steps.oci.outputs.repository }}
           subject-digest: ${{ steps.publish_oci.outputs.digest }}
