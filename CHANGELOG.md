@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.14.0] - 2026-07-01
+
 ### Changed
 
 - Update _[actions/cache](https://github.com/actions/cache)_ from `5.0.5` to `6.1.0`. ([#141](https://github.com/action-stars/helm-workflows/pull/141)) _@dependabot_
@@ -521,7 +523,8 @@
 <!--
 RELEASES
 -->
-[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.13.1...HEAD
+[UNRELEASED]: https://github.com/action-stars/helm-workflows/compare/v0.14.0...HEAD
+[v0.14.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.14.0
 [v0.13.1]: https://github.com/action-stars/helm-workflows/releases/tag/v0.13.1
 [v0.13.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.13.0
 [v0.12.0]: https://github.com/action-stars/helm-workflows/releases/tag/v0.12.0
