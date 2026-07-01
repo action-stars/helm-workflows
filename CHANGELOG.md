@@ -25,6 +25,9 @@
 - Update _imjasonh/setup-crane_ from `0.6` to `0.7`. ([#142](https://github.com/action-stars/helm-workflows/pull/142)) _@dependabot_
 - Update _actions/attest_ from `4.1.0` to `4.1.1`. ([#142](https://github.com/action-stars/helm-workflows/pull/142)) _@dependabot_
 - Update _actions/setup-python_ from `6.2.0` to `6.3.0`. ([#142](https://github.com/action-stars/helm-workflows/pull/142)) _@dependabot_
+- Update _action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml_ from `0.10.0` to `0.11.0`. ([#143](https://github.com/action-stars/helm-workflows/pull/143)) @dependabot
+- Update _action-stars/generic-workflows/.github/workflows/release.yaml_ from `0.10.0` to `0.11.0`. ([#143](https://github.com/action-stars/helm-workflows/pull/143)) @dependabot
+- Update _action-stars/generic-workflows/.github/workflows/validate-gh-workflows.yaml_ from `0.10.0` to `0.11.0`. ([#143](https://github.com/action-stars/helm-workflows/pull/143)) @dependabot
 
 ## [v0.13.1] - 2026-06-16
 
