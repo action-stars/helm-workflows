@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Update _[actions/cache](https://github.com/actions/cache)_ from `5.0.5` to `6.1.0`. ([#141](https://github.com/action-stars/helm-workflows/pull/141)) _@dependabot_
+
 ## [v0.13.1] - 2026-06-16
 
 ### Fixed
