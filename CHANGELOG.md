@@ -17,6 +17,7 @@
 ### Changed
 
 - Update _[actions/cache](https://github.com/actions/cache)_ from `5.0.5` to `6.1.0`. ([#141](https://github.com/action-stars/helm-workflows/pull/141)) _@dependabot_
+- Update _[actions/checkout](https://github.com/actions/checkout)_ from `6.0.3` to `7.0.0`. ([#139](https://github.com/action-stars/helm-workflows/pull/139)) _@dependabot_
 
 ## [v0.13.1] - 2026-06-16
 
