@@ -86,7 +86,7 @@ jobs:
           fetch-tags: true
 
       - name: Install ghactl
-        uses: action-stars/ghactl-action@c556c5f2cfcb1f6643bdecf1bf601c706954a37a # v0.0.1
+        uses: action-stars/ghactl-action@ee93644a33e63f19d4af8cee920710fdff236af8 # v0.1.0
         with:
           token: ${{ github.token }}
           version: latest
@@ -165,7 +165,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install ghactl
-        uses: action-stars/ghactl-action@c556c5f2cfcb1f6643bdecf1bf601c706954a37a # v0.0.1
+        uses: action-stars/ghactl-action@ee93644a33e63f19d4af8cee920710fdff236af8 # v0.1.0
         with:
           token: ${{ github.token }}
           version: latest
@@ -320,7 +320,7 @@ jobs:
 
       - name: Login to OCI registry
         if: inputs.publish_oci
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
         with:
           registry: ${{ inputs.oci_registry }}
           username: ${{ inputs.oci_username }}
