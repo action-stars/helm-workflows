@@ -4,6 +4,14 @@ updates:
     directory: /
     groups:
       github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      github-actions-security:
+        applies-to: security-updates
         patterns:
           - "*"
         update-types:
@@ -11,5 +19,7 @@ updates:
           - patch
     commit-message:
       prefix: deps
+    labels:
+      - dependency
     schedule:
       interval: weekly
