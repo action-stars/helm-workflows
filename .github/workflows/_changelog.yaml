@@ -10,7 +10,7 @@ permissions: read-all
 jobs:
   workflow:
     name: Workflow
-    uses: action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml@436b5d8ebbc67151ec77f214d667d7393c3916af # v0.11.0
+    uses: action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml@9ebbb6e9360565432fd1898fda091048be02db1b # v0.12.0
     permissions:
       contents: read
       id-token: write
