@@ -11,3 +11,6 @@ jobs:
     uses: action-stars/generic-workflows/.github/workflows/release.yaml@9ebbb6e9360565432fd1898fda091048be02db1b # v0.12.0
     permissions:
       contents: write
+    with:
+      immutable: true
+      generate_release_notes: true
