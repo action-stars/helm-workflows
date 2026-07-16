@@ -18,6 +18,9 @@
 
 - Update _action-stars/ghactl-action_ from `0.0.1` to `0.1.0`. ([#145](https://github.com/action-stars/helm-workflows/pull/145)) @dependabot
 - Update _docker/login-action_ from `4.2.0` to `4.4.0`. ([#145](https://github.com/action-stars/helm-workflows/pull/145)) @dependabot
+- Update _action-stars/generic-workflows/.github/workflows/dependabot-changelog.yaml_ from `0.11.0` to `0.12.0`. ([#146](https://github.com/action-stars/helm-workflows/pull/146)) @dependabot
+- Update _action-stars/generic-workflows/.github/workflows/release.yaml_ from `0.11.0` to `0.12.0`. ([#146](https://github.com/action-stars/helm-workflows/pull/146)) @dependabot
+- Update _action-stars/generic-workflows/.github/workflows/validate-gh-workflows.yaml_ from `0.11.0` to `0.12.0`. ([#146](https://github.com/action-stars/helm-workflows/pull/146)) @dependabot
 
 ## [v0.14.0] - 2026-07-01
 
