@@ -107,8 +107,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          semver_regex='[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+\.[0-9]+)?'
-
           release="false"
           release_charts=()
 
@@ -117,7 +115,12 @@ jobs:
               chart="$(basename "${chart_dir}")"
               echo "::group::Chart: ${chart}"
 
-              released_version="$(git tag -l --sort version:refname "${chart}-*" | grep -Eo "^${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${semver_regex}$" | tail -n 1 | grep -Eo "${semver_regex}$" || true)"
+              released_version="$(git tag -l --sort version:refname "${chart}-*" | grep -Eo "^${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+\.[0-9]+)?$" | tail -n 1 | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+\.[0-9]+)?$" || true)"
+              release_version_no_prerelease="${released_version%-*}"
+              if [[ -n "$(git rev-parse "${chart}-${INPUT_RELEASE_NAME_VERSION_PREFIX}${release_version_no_prerelease}" || true)" ]]; then
+                released_version="${release_version_no_prerelease}"
+              fi
+
               current_version="$(yq eval '.version' "./${INPUT_CHART_DIR}/${chart}/Chart.yaml")"
 
               echo "Released version: ${released_version}"
